@@ -132,7 +132,28 @@ footer{text-align:center;color:#887890;font-size:11px;padding:24px 0 0}
 <footer>Made for two consenting adults. Skip means skip. Keep private moments private. ♥</footer>
 </div>
 <div id="toast" class="toast hidden"></div>
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyDi_bJDs2Kw3Kqilf0TwKSe0PRvs_MsJ34",
+  authDomain: "after-hours-game-bee3e.firebaseapp.com",
+  databaseURL: "https://after-hours-game-bee3e-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "after-hours-game-bee3e",
+  storageBucket: "after-hours-game-bee3e.firebasestorage.app",
+  messagingSenderId: "84144412869",
+  appId: "1:84144412869:web:4a65b973503ae65b95b8ac",
+  measurementId: "G-74JE4PS8BM"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+let roomRef = null;
+let applyingRemote = false;
+let unsubscribeRoom = null;
 const categories = {
   "Hot Confessions": [
     ["What was your very first impression of your partner?", "Give your partner a sincere compliment."],
