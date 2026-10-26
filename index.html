@@ -461,22 +461,26 @@ $("createBtn").addEventListener("click", async () => {
     $("createBtn").disabled = false;
   }
 });
-
 $("revealBtn").addEventListener("click", () => {
   state.revealed = !state.revealed;
   renderGame();
+  saveGameState();
 });
 
 $("nextBtn").addEventListener("click", () => {
   const cards = categories[state.category];
+
   state.index++;
   if (state.index >= cards.length) {
     state.index = 0;
     state.round++;
   }
+
   state.active = 1 - state.active;
   state.revealed = false;
+
   renderGame();
+  saveGameState();
 });
 
 $("skipBtn").addEventListener("click", () => {
