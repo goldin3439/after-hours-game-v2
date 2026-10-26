@@ -324,16 +324,115 @@ function award(player, points, reason) {
 
 window.award = award;
 
-$("createBtn").addEventListener("click", () => {
+$("createBtn").addEventListener("click", async () => {
   const first = $("hostName").value.trim() || "Player 1";
-  const room = $("roomInput").value.trim().toUpperCase() || makeRoomCode();
-  state.names[0] = first;
-  state.names[1] = "Player 2";
-  state.room = room.slice(0, 8);
-  $("setup").classList.add("hidden");
-  $("game").classList.remove("hidden");
-  renderGame();
-  notify("Room ready! Share the code with your partner.");
+  const enteredRoom = $("roomInput").value.trim().toUpperCase();
+
+  try {
+    $("createBtn").disabled = true;
+    $("connectionStatus").textContent = "● Connecting to Firebase...";
+
+    if (!auth.currentUser) {
+      await signInAnonymously(auth);
+    }
+
+    const uid = auth.currentUser.uid;
+    let room = enteredRoom;
+    let roomData;
+
+    if (!room) {
+      // Create a new, unique room
+      do {
+        room = makeRoomCode();
+        roomRef = ref(db, "rooms/" + room);
+        const existing = await get(roomRef);
+        if (!existing.exists()) break;
+      } while (true);
+
+      state = {
+        names: [first, "Player 2"],
+        scores: [0, 0],
+        active: 0,
+        category: categoryNames[0],
+        index: 0,
+        round: 1,
+        history: [],
+        revealed: false,
+        room: room
+      };
+
+      roomData = {
+        hostUid: uid,
+        guestUid: "",
+        ...state,
+        updatedAt: Date.now()
+      };
+
+      await set(roomRef, roomData);
+      notify("Room created! Share the code with your partner.");
+    } else {
+      // Join an existing room
+      roomRef = ref(db, "rooms/" + room);
+      const snapshot = await get(roomRef);
+
+      if (!snapshot.exists()) {
+        roomRef = null;
+        notify("Room not found. Ask your partner to create it first.");
+        return;
+      }
+
+      roomData = snapshot.val();
+
+      if (roomData.hostUid === uid) {
+        notify("You are already the host of this room.");
+      } else if (roomData.guestUid && roomData.guestUid !== uid) {
+        roomRef = null;
+        notify("This room already has two players.");
+        return;
+      } else {
+        await update(roomRef, {
+          guestUid: uid,
+          names: [roomData.names?.[0] || "Player 1", first],
+          updatedAt: Date.now()
+        });
+        notify("Joined your partner's room!");
+      }
+    }
+
+    state.room = room;
+
+    if (unsubscribeRoom) unsubscribeRoom();
+
+    unsubscribeRoom = onValue(roomRef, snapshot => {
+      const remote = snapshot.val();
+      if (!remote) return;
+
+      applyingRemote = true;
+      state.names = remote.names || ["Player 1", "Player 2"];
+      state.scores = remote.scores || [0, 0];
+      state.active = remote.active || 0;
+      state.category = remote.category || categoryNames[0];
+      state.index = remote.index || 0;
+      state.round = remote.round || 1;
+      state.history = remote.history || [];
+      state.revealed = remote.revealed || false;
+      state.room = remote.room || room;
+
+      $("connectionStatus").textContent = "● Connected to Firebase";
+      $("roomHelp").textContent = "Live room: share the code with your partner.";
+      $("setup").classList.add("hidden");
+      $("game").classList.remove("hidden");
+      renderGame();
+      applyingRemote = false;
+    });
+
+  } catch (error) {
+    console.error(error);
+    notify("Connection failed. Check Firebase settings and try again.");
+    $("connectionStatus").textContent = "● Connection failed";
+  } finally {
+    $("createBtn").disabled = false;
+  }
 });
 
 $("revealBtn").addEventListener("click", () => {
