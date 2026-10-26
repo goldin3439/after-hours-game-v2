@@ -263,11 +263,13 @@ function renderTabs() {
     button.className = "tab" + (name === state.category ? " selected" : "");
     button.textContent = name;
     button.addEventListener("click", () => {
-      state.category = name;
-      state.index = 0;
-      state.revealed = false;
-      renderGame();
-    });
+  state.category = name;
+  state.index = 0;
+  state.revealed = false;
+
+  renderGame();
+  saveGameState();
+});
     tabs.appendChild(button);
   });
 }
@@ -505,24 +507,36 @@ $("roundWin1").addEventListener("click", () => {
 $("clearHistoryBtn").addEventListener("click", () => {
   state.history = [];
   renderHistory();
+  saveGameState();
   notify("History cleared.");
 });
-
 $("resetBtn").addEventListener("click", () => {
   if (!confirm("Reset both scores and history?")) return;
+
   state.scores = [0, 0];
   state.history = [];
   state.round = 1;
   state.index = 0;
   state.active = 0;
   state.revealed = false;
+
   renderGame();
+  saveGameState();
+
   notify("Scores reset.");
 });
 
 $("leaveBtn").addEventListener("click", () => {
+  if (unsubscribeRoom) {
+    unsubscribeRoom();
+    unsubscribeRoom = null;
+  }
+
+  roomRef = null;
+
   $("game").classList.add("hidden");
   $("setup").classList.remove("hidden");
+
   notify("You left the room.");
 });
 
