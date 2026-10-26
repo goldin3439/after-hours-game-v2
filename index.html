@@ -488,7 +488,10 @@ $("skipBtn").addEventListener("click", () => {
   state.index = (state.index + 1) % cards.length;
   state.active = 1 - state.active;
   state.revealed = false;
+
   renderGame();
+  saveGameState();
+
   notify("Card skipped — no points lost.");
 });
 $("roundWin0").addEventListener("click", () => {
