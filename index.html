@@ -3,565 +3,275 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#170d20">
-<title>After Hours — Couple Game</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>After Hours ❤️</title>
 <style>
-:root{--bg:#100b16;--panel:#1c1425;--panel2:#251a30;--pink:#ff5c9a;--purple:#a78bfa;--text:#fff7fc;--muted:#c6b8cd;--line:#493552;--gold:#ffd479;--green:#75e0b2}
 *{box-sizing:border-box}
-body{margin:0;background:radial-gradient(circle at 10% 0%,#39203f 0,transparent 34%),radial-gradient(circle at 100% 20%,#2d1634 0,transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
-button,input,select{font:inherit}
-button{cursor:pointer;border:0;border-radius:13px;padding:12px 15px;font-weight:750;transition:.15s}
-button:active{transform:scale(.98)}
-button:disabled{opacity:.4;cursor:not-allowed}
-.primary{background:linear-gradient(120deg,var(--pink),#b27bff);color:#190c20}
-.secondary{background:#352440;color:var(--text);border:1px solid var(--line)}
-.ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
-.danger{background:#49212e;color:#ffdce7;border:1px solid #71334b}
-input,select{width:100%;border:1px solid var(--line);background:#140d1b;color:var(--text);padding:12px;border-radius:12px;outline:none}
-input:focus,select:focus{border-color:var(--pink)}
-.app{max-width:1050px;margin:auto;padding:18px 16px 40px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.4px}
-.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),#9a78ff);font-size:22px;color:#210f27}
-.tag{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:7px 10px}
-.hero{padding:25px 0 22px}
-.eyebrow{color:var(--pink);text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:900}
-.hero h1{font-size:clamp(34px,7vw,58px);line-height:1.02;margin:10px 0 12px;letter-spacing:-2px}
-.gradient{background:linear-gradient(100deg,#ff83b3,#c3a3ff,#ffdf9b);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{color:var(--muted);max-width:620px;line-height:1.6;margin:0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.panel{background:linear-gradient(160deg,rgba(38,26,49,.97),rgba(25,17,33,.97));border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 12px 35px #0002}
-.panel h2,.panel h3{margin:0 0 10px}
-.muted{color:var(--muted)}
-.small{font-size:12px;line-height:1.5}
-.field{display:grid;gap:7px;margin:12px 0}
-.field label{font-size:12px;color:var(--muted);font-weight:750}
-.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
-.actions button{flex:1}
-.room-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.roomcode{font-size:23px;letter-spacing:5px;font-weight:950;color:var(--gold)}
-.status{font-size:12px;border-radius:999px;padding:6px 9px;background:#263b34;color:var(--green);display:inline-flex;align-items:center;gap:6px}
-.status.offline{background:#3b2d21;color:var(--gold)}
-.scoreboard{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
-.player{border-radius:17px;padding:16px;background:#17101e;border:1px solid var(--line)}
-.player.active{border-color:var(--pink);box-shadow:inset 0 0 0 1px #ff5c9a33}
-.player-name{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
-.score{font-size:38px;font-weight:950;margin:7px 0}
-.player-foot{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.mini{padding:7px 10px;border-radius:9px;font-size:12px}
-.tabs{display:flex;gap:8px;overflow:auto;padding:3px 0 12px}
-.tab{white-space:nowrap;background:#23182d;color:var(--muted);border:1px solid var(--line)}
-.tab.selected{background:var(--pink);color:#260d1d;border-color:var(--pink)}
-.question-card{min-height:245px;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(circle at 100% 0%,#5d2b56,transparent 40%),linear-gradient(135deg,#291c36,#17101f);border:1px solid #6d456f;border-radius:22px;padding:22px;margin:8px 0 14px}
-.card-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
-.pill{font-size:11px;font-weight:850;letter-spacing:.6px;padding:7px 10px;border-radius:999px;background:#ffffff12;border:1px solid #ffffff24;color:#ffbed8}
-.qnumber{font-size:12px;color:var(--muted)}
-.question{font-size:clamp(23px,4vw,34px);font-weight:850;line-height:1.2;letter-spacing:-.7px;margin:25px 0}
-.punishment{background:#100b16aa;border:1px dashed #78536f;border-radius:13px;padding:12px;color:#f6d8ee;font-size:13px;line-height:1.5}
-.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 10px}
-.section-title h2{font-size:19px;margin:0}
-.history{display:grid;gap:8px;max-height:200px;overflow:auto}
-.history-item{padding:10px 12px;border-radius:12px;background:#17101e;border:1px solid #382742;font-size:12px;color:var(--muted)}
-.notice{border:1px solid #6b4c28;background:#2b2018;color:#ffe3b0;border-radius:14px;padding:12px;font-size:12px;line-height:1.55;margin-top:14px}
+body{margin:0;background:#120b19;color:#fff0f7;font-family:Arial,sans-serif}
+header{text-align:center;padding:25px 10px}
+h1{color:#ff75aa;margin:0}
+main{max-width:700px;margin:auto;padding:12px}
+.panel{background:#24152f;border:1px solid #51304e;border-radius:16px;padding:17px;margin-bottom:14px}
+input,textarea{width:100%;padding:12px;margin:6px 0 12px;background:#150d1d;color:white;border:1px solid #65466c;border-radius:8px;font-size:16px}
+button{padding:12px;border:0;border-radius:9px;background:#ff75aa;color:#280c1b;font-weight:bold;margin:4px;cursor:pointer}
+.secondary{background:#493352;color:white}
+.row{display:flex;flex-wrap:wrap;gap:6px}
+.row>*{flex:1}
 .hidden{display:none!important}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#fce8f3;color:#251020;padding:12px 16px;border-radius:12px;font-weight:800;box-shadow:0 8px 25px #0005;z-index:9;max-width:90vw;text-align:center}
-footer{text-align:center;color:#887890;font-size:11px;padding:24px 0 0}
-@media(max-width:700px){.grid{grid-template-columns:1fr}.app{padding:13px 12px 28px}.panel{padding:15px}.hero{padding-top:12px}.top{margin-bottom:10px}.tag{font-size:10px}.score{font-size:32px}.question-card{min-height:225px;padding:17px}}
+.small{font-size:13px;color:#cbb9d4;line-height:1.5}
+.scoreboard{display:flex;gap:10px}
+.score{flex:1;background:#150d1d;padding:12px;text-align:center;border-radius:10px}
+.score strong{display:block;font-size:25px;color:#ff75aa}
+.tag{background:#48263f;padding:7px 10px;border-radius:20px;display:inline-block}
+#question{font-size:22px;line-height:1.5;margin:22px 0}
+#timer{font-size:32px;color:#ff75aa;font-weight:bold}
 </style>
 </head>
 <body>
-<div class="app">
-<header class="top">
-<div class="brand"><div class="logo">♥</div><div>AFTER <span class="gradient">HOURS</span><div class="small muted" style="font-weight:500;letter-spacing:0">A private couples game</div></div></div>
-<span class="tag">📱 Two-phone mode</span>
+<header>
+<h1>AFTER HOURS ❤️</h1>
+<p>Couples Truth or Dare</p>
 </header>
-<section class="hero">
-<div class="eyebrow">Truth • Dare • Chemistry</div>
-<h1>Make it a little<br><span class="gradient">more interesting.</span></h1>
-<p>Play together from different phones. Draw spicy questions, give playful dares, and keep score in your own private room.</p>
+<main>
+<section class="panel" id="lobby">
+<h2>💋 Create or Join Room</h2>
+<input id="name" placeholder="Your name" maxlength="25">
+<div class="row">
+<button id="createBtn">Create Room</button>
+<button id="joinBtn" class="secondary">Join Room</button>
+</div>
+<input id="roomInput" placeholder="Enter room code">
+<p id="lobbyStatus" class="small"></p>
 </section>
-<section id="setup" class="grid">
-<div class="panel">
-<h2>💌 Create a room</h2>
-<p class="muted small">Start a game and invite your partner with the room code.</p>
-<div class="field"><label for="hostName">Your nickname</label><input id="hostName" maxlength="24" placeholder="e.g. Moonlight"></div>
-<div class="field"><label for="roomInput">Room code (optional)</label><input id="roomInput" maxlength="8" placeholder="Leave blank for a new room"></div>
-<button class="primary" style="width:100%" id="createBtn">Create / join room ✨</button>
-<div class="small muted" style="margin-top:10px">To join your partner's room, enter the exact code they share.</div>
-</div>
-<div class="panel">
-<h2>🎲 How to play</h2>
-<p class="muted small">1. Both players open the same website.<br>2. Create a room and share its code.<br>3. The second player enters that code to join.<br>4. Take turns answering, then award points.<br>5. Keep your video call open separately.</p>
-<div class="notice">🔒 Be kind: either player can skip any question. Never pressure anyone to get naked, show intimate areas, or do a sexual act. Don't record or screenshot intimate content without clear consent.</div>
-</div>
+
+<section class="panel hidden" id="setup">
+<h2>💞 Game Setup</h2>
+<p id="roomLabel" class="tag"></p>
+<p id="playersLabel"></p>
+<p class="small">10 rounds · 10 questions each · 10-second timer</p>
+<h3>Custom Round 1 — 10–15 questions</h3>
+<textarea id="custom1" rows="4" placeholder="One question per line"></textarea>
+<h3>Custom Round 2 — 10–15 questions</h3>
+<textarea id="custom2" rows="4" placeholder="One question per line"></textarea>
+<h3>Skip Dares — 8–15</h3>
+<textarea id="skipDares" rows="3" placeholder="One dare per line"></textarea>
+<h3>Final Loser Dares — 3–6</h3>
+<textarea id="finalDares" rows="2" placeholder="One dare per line"></textarea>
+<button id="readyBtn">I'm Ready ❤️</button>
+<p id="setupStatus" class="small"></p>
 </section>
-<section id="game" class="hidden">
-<div class="panel">
-<div class="room-banner">
-<div><div class="small muted">YOUR ROOM CODE</div><div class="roomcode" id="roomCodeDisplay">------</div></div>
-<div><span id="connectionStatus" class="status offline">● Local demo mode</span></div>
-<button class="secondary" id="shareBtn">Share invite ↗</button>
-</div>
-<div class="small muted" id="roomHelp">If live sync is enabled, both players see updates. Otherwise this page works on this device only.</div>
-</div>
+
+<section class="panel hidden" id="game">
+<p><span id="roundLabel" class="tag"></span> <span id="categoryLabel" class="tag"></span></p>
 <div class="scoreboard">
-<div class="player" id="playerBox0"><div class="player-name" id="playerLabel0">Player 1</div><div class="score" id="score0">0</div><div class="player-foot"><span class="small muted">points</span><button class="secondary mini" onclick="award(0,2,'Honest answer')">+2 honest</button></div><div class="player-foot" style="margin-top:8px"><button class="secondary mini" onclick="award(0,3,'Completed dare')">+3 dare</button><button class="ghost mini" onclick="award(0,1,'Made partner laugh')">+1 laugh</button></div></div>
-<div class="player" id="playerBox1"><div class="player-name" id="playerLabel1">Player 2</div><div class="score" id="score1">0</div><div class="player-foot"><span class="small muted">points</span><button class="secondary mini" onclick="award(1,2,'Honest answer')">+2 honest</button></div><div class="player-foot" style="margin-top:8px"><button class="secondary mini" onclick="award(1,3,'Completed dare')">+3 dare</button><button class="ghost mini" onclick="award(1,1,'Made partner laugh')">+1 laugh</button></div></div>
+<div class="score"><span id="player0">Player 1</span><strong id="score0">0</strong></div>
+<div class="score"><span id="player1">Player 2</span><strong id="score1">0</strong></div>
 </div>
-<div class="section-title"><h2>🎴 Pick your category</h2><span class="small muted" id="roundLabel">Round 1</span></div>
-<div class="tabs" id="categoryTabs"></div>
-<div class="question-card">
-<div class="card-top"><span class="pill" id="categoryPill">HOT CONFESSIONS</span><span class="qnumber" id="questionNumber">CARD 1</span></div>
-<div class="question" id="questionText">Who is ready to answer first? 😈</div>
-<div class="punishment hidden" id="punishmentBox"></div>
+<p id="turnLabel"></p>
+<div id="timer">10</div>
+<div id="question">Question appears here</div>
+<div id="challenge" class="hidden"></div>
+<div id="answer" class="hidden">Discuss your answer together ❤️</div>
+<div class="row">
+<button id="answerBtn">Answer (+2)</button>
+<button id="skipBtn" class="secondary">Skip → Dare</button>
 </div>
-<div class="actions">
-<button class="secondary" id="revealBtn">Reveal punishment 👀</button>
-<button class="primary" id="nextBtn">Next card →</button>
-<button class="ghost" id="skipBtn">Skip card</button>
+<div class="row">
+<button id="doneDareBtn" class="secondary">Completed Dare</button>
+<button id="failedDareBtn" class="secondary">Failed Dare (−3)</button>
 </div>
-<div class="actions">
-<button class="secondary" id="roundWin0">🏆 Give round win to <span id="roundWinName0">Player 1</span> (+5)</button>
-<button class="secondary" id="roundWin1">🏆 Give round win to <span id="roundWinName1">Player 2</span> (+5)</button>
+<div class="row">
+<button id="nextBtn" class="secondary">Next Question</button>
+<button id="roundWinBtn" class="secondary">Round Winner +10</button>
 </div>
-<div class="section-title"><h2>📜 Score history</h2><button class="ghost mini" id="clearHistoryBtn">Clear history</button></div>
-<div class="history" id="history"></div>
-<div class="actions"><button class="danger" id="resetBtn">Reset scores</button><button class="ghost" id="leaveBtn">Leave room</button></div>
+<p id="gameStatus" class="small"></p>
 </section>
-<footer>Made for two consenting adults. Skip means skip. Keep private moments private. ♥</footer>
-</div>
-<div id="toast" class="toast hidden"></div>
+
+<section class="panel hidden" id="finish">
+<h2>🏆 Final Results</h2>
+<div id="results"></div>
+<h3>Final Loser Dare</h3>
+<p id="loserDare"></p>
+<button id="newGameBtn">Play Again</button>
+<button id="leaveBtn" class="secondary">Leave Room</button>
+</section>
+</main>
+
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyDi_bJDs2Kw3Kqilf0TwKSe0PRvs_MsJ34",
-  authDomain: "after-hours-game-bee3e.firebaseapp.com",
-  databaseURL: "https://after-hours-game-bee3e-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "after-hours-game-bee3e",
-  storageBucket: "after-hours-game-bee3e.firebasestorage.app",
-  messagingSenderId: "84144412869",
-  appId: "1:84144412869:web:4a65b973503ae65b95b8ac",
-  measurementId: "G-74JE4PS8BM"
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getDatabase,ref,set,get,update,onValue} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+const firebaseConfig={
+ apiKey:"AIzaSyDi_bJDs2Kw3Kqilf0TwKSe0PRvs_MsJ34",
+ authDomain:"after-hours-game-bee3e.firebaseapp.com",
+ databaseURL:"https://after-hours-game-bee3e-default-rtdb.asia-southeast1.firebasedatabase.app",
+ projectId:"after-hours-game-bee3e",
+ storageBucket:"after-hours-game-bee3e.firebasestorage.app",
+ messagingSenderId:"84144412869",
+ appId:"1:84144412869:web:4a65b973503ae65b95b8ac",
+ measurementId:"G-74JE4PS8BM"
 };
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getDatabase(app);
+let uid,roomId,isHost=false,game=null,unsubscribe=null,timer=null,seconds=10;
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getDatabase(app);
-
-let roomRef = null;
-let applyingRemote = false;
-let unsubscribeRoom = null;
-const categories = {
-  "Hot Confessions": [
-    ["What was your very first impression of your partner?", "Give your partner a sincere compliment."],
-    ["What is something romantic you have always wanted to try together?", "Hold hands and share one thing you appreciate about each other."],
-    ["What little thing does your partner do that makes you smile?", "Give your partner a 20-second hug, if they want one."],
-    ["What is a secret dream you have not shared yet?", "Whisper a sweet message to your partner."],
-    ["What makes you feel most loved in a relationship?", "Describe your perfect date night."],
-    ["What is a memory with your partner you would relive?", "Look into each other's eyes for 10 seconds, if comfortable."],
-    ["What is one thing you wish you did more often together?", "Plan one small surprise for each other."],
-    ["When do you feel closest to your partner?", "Tell your partner three things you admire about them."]
-  ],
-  "Bedroom Talk": [
-    ["What kind of affection makes you feel most wanted?", "Ask your partner what kind of affection they enjoy."],
-    ["What is your idea of a romantic evening at home?", "Give a gentle shoulder massage, with permission."],
-    ["What helps you feel comfortable discussing intimacy?", "Share one boundary that helps you feel safe."],
-    ["What is a romantic gesture you find irresistible?", "Give your partner a kiss, only if they want one."],
-    ["What helps you feel confident around your partner?", "Tell your partner what makes them attractive to you."],
-    ["What is one new way you would like to connect emotionally?", "Share a fantasy date idea, not a demand."],
-    ["What makes physical affection feel meaningful to you?", "Ask your partner what kind of touch feels comforting."],
-    ["How can you communicate your needs more clearly?", "Take turns saying one thing that helps you feel desired."]
-  ],
-  "Nude Comfort": [
-    ["What helps you feel confident in your own skin?", "Share one thing you like about yourself."],
-    ["What makes a private moment feel safe and comfortable?", "Ask before giving a hug or other physical affection."],
-    ["How can partners respect each other's body boundaries?", "Name one boundary you want both partners to respect."],
-    ["What helps you feel accepted without needing to look perfect?", "Give each other a genuine, non-body-focused compliment."],
-    ["What does body confidence mean to you?", "Share one thing you appreciate about your body."],
-    ["How should a partner respond when you say no?", "Practice saying, 'No thanks, I'd rather skip this.'"],
-    ["What makes you feel emotionally safe when being vulnerable?", "Share one thing that helps you trust someone."],
-    ["Why is consent important even in a long-term relationship?", "Ask, listen, and accept the answer without pressure."]
-  ],
-  "Exes & Jealousy": [
-    ["What helps you feel secure when jealousy comes up?", "Tell your partner one thing that builds trust."],
-    ["What relationship lesson did you learn from the past?", "Share one lesson without naming or comparing exes."],
-    ["What counts as crossing a boundary online?", "Agree on one respectful social-media boundary."],
-    ["How do you prefer to resolve misunderstandings?", "Each person gets one minute to speak without interruption."],
-    ["What makes trust grow over time?", "Name one action that helps you feel secure."],
-    ["How should couples handle contact with an ex?", "Discuss what feels respectful to both of you."],
-    ["What do you need when you feel insecure?", "Practice asking for reassurance kindly."],
-    ["What is the difference between privacy and secrecy?", "Each person shares one reasonable privacy boundary."]
-  ],
-  "Funny & Wild": [
-    ["What is the most embarrassing thing you have done on a date?", "Do your funniest impression of your partner."],
-    ["If your relationship were a movie, what would it be called?", "Invent a ridiculous couple nickname."],
-    ["Who would survive longer in a zombie apocalypse, and why?", "Act out a dramatic movie scene for 10 seconds."],
-    ["What is your funniest misunderstanding as a couple?", "Do a silly dance for 10 seconds."],
-    ["What strange food combination would you make your partner try?", "Describe your partner like a sports commentator."],
-    ["What is the weirdest dream you remember?", "Speak in a funny accent for the next round, if comfortable."],
-    ["Which of you is more likely to get lost on a trip?", "Make up a two-line love song."],
-    ["What is a harmless secret talent you have?", "Show your silliest pose."]
-  ],
-  "Dares & Challenges": [
-    ["What small adventure should you take together?", "Plan a spontaneous mini-date in 60 seconds."],
-    ["What song reminds you of your partner?", "Sing one line of a song to your partner."],
-    ["What would make your partner laugh right now?", "Try to make your partner laugh in 20 seconds."],
-    ["What is one kind thing you can do tomorrow?", "Send your partner a sweet message."],
-    ["What is your favourite shared memory?", "Recreate a pose from a favourite photo, if you both agree."],
-    ["What is one skill you could learn together?", "Teach your partner a simple dance move."],
-    ["What is your ideal weekend together?", "Plan three fun things to do together."],
-    ["What makes you feel appreciated?", "Give a heartfelt thank-you for something specific."]
-  ]
+const $=id=>document.getElementById(id);
+const categories={
+"Funny & Comedy":["Tell a funny embarrassing story.","Make your funniest face.","Tell a joke.","Imitate your partner.","Invent a silly nickname.","Dance for ten seconds.","What makes you laugh?","Act like a cat.","Describe your funniest memory.","Sing a silly song."],
+"Spicy & Flirty":["What first attracted you?","Give a sincere compliment.","Describe your ideal date.","What makes you blush?","Give a playful wink.","What is your favourite romantic memory?","Hold eye contact for ten seconds.","What romantic gesture do you like?","Choose a romantic song.","Plan a surprise date."],
+"Jealousy":["What helps you feel secure?","What does trust mean to you?","What boundary matters most?","How should couples discuss jealousy?","What makes you feel appreciated?","What behaviour bothers you?","How do you rebuild trust?","What reassures you?","What is a healthy boundary?","Share something you appreciate."],
+"Wild Card":["Do a silly dance.","Give a dramatic speech.","Invent a handshake.","Sing one song line.","Make your partner laugh.","Do a runway walk.","Tell a tongue twister.","Create a superhero name.","Act out an animal.","Make up a holiday."],
+"Relationship":["What makes you feel loved?","Share a favourite memory.","What goal should we share?","What helps us communicate?","What makes you feel appreciated?","Describe your ideal weekend.","What activity should we try?","What do you admire in me?","What is our biggest strength?","What should we learn together?"],
+"Ex & Past Relationships":["What lesson have you learned?","What boundary matters to you?","What helps people move on?","What makes a relationship healthy?","What builds trust?","What does closure mean?","What have you learned about communication?","What advice would you give your younger self?","What quality matters most now?","What makes you feel respected?"],
+"Dares & Challenges":["Dance for ten seconds.","Give three compliments.","Do a funny impression.","Sing a chorus.","Invent a handshake.","Tell a joke.","Make a funny face.","Do a dramatic walk.","Speak in an accent.","Make your partner smile."],
+"Brain & Memory":["Name five things you like about me.","Recall our first conversation.","Name three shared memories.","What is my favourite snack?","Name five countries.","Say three colours quickly.","Recall a happy moment.","Name four animals.","Describe my ideal day.","Name three things in the room."],
+"Quick Maths":["What is 7 + 8?","What is 19 − 6?","What is 6 × 4?","What is 24 ÷ 3?","What is 12 + 17?","What is 50 − 23?","What is 9 × 7?","What is 81 ÷ 9?","What is 15 + 16?","What is 8 × 8?"],
+"Truth & Confessions":["What are you proud of?","What fear have you overcome?","What is your secret talent?","What makes you confident?","What do you want to learn?","What makes you laugh?","What habit would you improve?","What are you grateful for?","What is something people misunderstand?","Share a kind memory."],
+"Naughty & Wild":["Give a playful compliment.","Describe a romantic date.","What makes you blush?","Give a cheeky wink.","Choose a romantic song.","Hold hands for fifteen seconds.","Invent a flirty nickname.","Describe your perfect evening.","Ask a playful question.","Share a romantic wish."],
+"Friendship & Secrets":["What makes a good friend?","Share a funny memory.","What makes you trust someone?","What do you value in friendship?","What makes you feel understood?","What are you grateful for?","What is a shared joke?","What is a kind thing you did?","What activity should we try?","What makes you smile?"],
+"Movies, Music & Pop Culture":["Name a favourite film.","Sing a song line.","Which character resembles you?","What song describes us?","Name three films.","What is your favourite genre?","Act out a movie scene.","Which fictional world would you visit?","Hum a song for me to guess.","What film can you watch repeatedly?"],
+"Would You Rather?":["Beach or mountains?","Movie night or game night?","Sunrise or sunset date?","Cook together or eat out?","Text or call?","Adventure or staycation?","Gifts or quality time?","Dance or sing together?","City or countryside?","Plan everything or be spontaneous?"],
+"Random & Unexpected":["What skill would you learn instantly?","Name a pet dragon.","Where would you travel in time?","What would you take to an island?","Invent an ice cream flavour.","What is your theme song?","Choose a superpower.","Describe your dream house.","What would you do with a free day?","What animal would be funniest if it spoke?"]
 };
+const winnerTitles=["All-Time Winner","Master of the Game","Simple Winner","Highest Score Winner","History Repeat","All Time Winner"];
+const loserTitles=["All Time Loser","🗑️ Box","Loser and Loser","Worst Player","Monkey Player"];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const lines=id=>$(id).value.split("\n").map(x=>x.trim()).filter(Boolean);
+const random=a=>a[Math.floor(Math.random()*a.length)];
+const roomRef=()=>ref(db,"rooms/"+roomId);
+const me=()=>game.players.findIndex(p=>p?.uid===uid);
+const round=()=>game.rounds[game.roundIndex];
+const active=()=>game.activePlayer===me();
+const key=()=>game.roundIndex+":"+round().index;
+const already=()=>game.answered.includes(key());
+const show=id=>$(id).classList.remove("hidden");
+const hide=id=>$(id).classList.add("hidden");
+const msg=(id,s)=>$(id).textContent=s;
 
-const categoryNames = Object.keys(categories);
-let state = {
-  names: ["Player 1", "Player 2"],
-  scores: [0, 0],
-  active: 0,
-  category: categoryNames[0],
-  index: 0,
-  round: 1,
-  history: [],
-  revealed: false,
-  room: ""
+async function login(){if(!auth.currentUser)await signInAnonymously(auth);uid=auth.currentUser.uid}
+async function save(data){await set(roomRef(),data)}
+async function patch(data){await update(roomRef(),{...data,updatedAt:Date.now()})}
+function stopTimer(){if(timer)clearInterval(timer);timer=null}
+function startTimer(){
+ stopTimer();seconds=10;msg("timer",seconds);
+ timer=setInterval(()=>{seconds--;msg("timer",seconds);if(seconds<=0){stopTimer();if(active()&&!already()&&!game.challenge)msg("gameStatus","Time's up! Answer or skip to a dare.")}},1000);
+}
+function render(){
+ if(!game)return;
+ if(!game.started){show("setup");hide("game");hide("finish");msg("roomLabel","Room: "+roomId);msg("playersLabel",game.players.map(p=>p?.name||"Waiting for partner").join(" ❤️ "));return}
+ if(game.finished){stopTimer();hide("game");show("finish");results();return}
+ hide("setup");hide("finish");show("game");
+ let r=round();
+ msg("player0",game.players[0].name);msg("player1",game.players[1].name);
+ msg("score0",game.scores[0]);msg("score1",game.scores[1]);
+ msg("roundLabel","Round "+(game.roundIndex+1)+"/10");
+ msg("categoryLabel",r.name);
+ msg("turnLabel",game.players[game.activePlayer].name+"'s turn");
+ msg("question",r.questions[r.index]);
+ $("answer").classList.toggle("hidden",!game.revealed);
+ $("challenge").classList.toggle("hidden",!game.challenge);
+ if(game.challenge)msg("challenge","🎲 Dare: "+game.challenge.text);
+ $("answerBtn").disabled=!active()||game.challenge||already();
+ $("skipBtn").disabled=!active()||game.challenge||already();
+ $("doneDareBtn").disabled=!active()||!game.challenge;
+ $("failedDareBtn").disabled=!active()||!game.challenge;
+ $("nextBtn").disabled=!active();
+ $("roundWinBtn").disabled=!active()||r.bonusAwarded;
+ if(!timer&&!game.challenge&&!already())startTimer();
+}
+function results(){
+ let w=game.scores[0]===game.scores[1]?-1:game.scores[0]>game.scores[1]?0:1;
+ $("results").innerHTML=game.players.map((p,i)=>"<div class='panel'><h3>"+p.name+"</h3>Score: "+game.scores[i]+"<p>"+(w===-1?"Tie Game":random(i===w?winnerTitles:loserTitles))+"</p></div>").join("");
+ msg("loserDare",w<0?"Choose a dare together.":game.players[1-w].name+": "+random(game.finalDares));
+}
+function listen(){
+ if(unsubscribe)unsubscribe();
+ unsubscribe=onValue(roomRef(),s=>{if(s.exists()){game=s.val();render()}});
+}
+$("createBtn").onclick=async()=>{
+ try{
+ await login();let name=$("name").value.trim();if(!name)return alert("Enter your name.");
+ roomId=Math.random().toString(36).slice(2,8).toUpperCase();isHost=true;
+ game={room:roomId,hostUid:uid,players:[{uid,name},null],scores:[0,0],started:false,ready:[false,false]};
+ await save(game);listen();hide("lobby");show("setup");
+ }catch(e){msg("lobbyStatus",e.message)}
 };
-
-const $ = id => document.getElementById(id);
-let toastTimer;
-
-function notify(message) {
-  const el = $("toast");
-  el.textContent = message;
-  el.classList.remove("hidden");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.add("hidden"), 2400);
+$("joinBtn").onclick=async()=>{
+ try{
+ await login();let name=$("name").value.trim(),code=$("roomInput").value.trim().toUpperCase();
+ if(!name||!code)return alert("Enter name and room code.");
+ roomId=code;let s=await get(roomRef());if(!s.exists())return alert("Room not found.");
+ game=s.val();
+ if(!game.players[1]){game.players[1]={uid,name};game.ready=[false,false];await save(game)}
+ else if(game.players.some(p=>p?.uid===uid)){}else return alert("Room is full.");
+ listen();hide("lobby");render();
+ }catch(e){msg("lobbyStatus",e.message)}
+};
+$("readyBtn").onclick=async()=>{
+ if(!game||me()<0)return alert("Join a room first.");
+ let c1=lines("custom1"),c2=lines("custom2"),sd=lines("skipDares"),fd=lines("finalDares");
+ if(c1.length<10||c1.length>15||c2.length<10||c2.length>15)return alert("Add 10–15 questions to each custom round.");
+ if(sd.length<8||sd.length>15)return alert("Add 8–15 skip dares.");
+ if(fd.length<3||fd.length>6)return alert("Add 3–6 final dares.");
+ let contributions={...(game.contributions||{})};contributions[me()]={custom:[c1,c2],skipDares:sd,finalDares:fd};
+ let ready=[...(game.ready||[false,false])];ready[me()]=true;await patch({contributions,ready});
+ msg("setupStatus","You're ready! Waiting for your partner.");
+ if(isHost&&ready[0]&&ready[1]){
+ let c=[[],[]],d=[],f=[];
+ Object.values(contributions).forEach(v=>{v.custom.forEach((a,i)=>c[i].push(...a));d.push(...v.skipDares);f.push(...v.finalDares)});
+ c=c.map(a=>[...new Set(a)]);
+ if(c.some(a=>a.length<10))return alert("Each custom round needs 10 unique questions.");
+ let chosen=shuffle(Object.keys(categories)).slice(0,8);
+ let rounds=chosen.map(n=>({name:n,type:"category",questions:shuffle(categories[n]).slice(0,10),index:0,bonusAwarded:false}));
+ rounds.push({name:"Custom Round 1",type:"custom",questions:shuffle(c[0]).slice(0,10),index:0,bonusAwarded:false});
+ rounds.push({name:"Custom Round 2",type:"custom",questions:shuffle(c[1]).slice(0,10),index:0,bonusAwarded:false});
+ await save({...game,started:true,rounds:shuffle(rounds),roundIndex:0,activePlayer:0,revealed:false,challenge:null,answered:[],history:[],skipDares:d,finalDares:f,scores:[0,0],finished:false});
+ }
+};
+$("answerBtn").onclick=async()=>{
+ if(!active()||already()||game.challenge)return;
+ stopTimer();let scores=[...game.scores];scores[me()]+=2;
+ await patch({scores,answered:[...game.answered,key()],revealed:true,activePlayer:1-me(),history:[...game.history,game.players[me()].name+" answered +2"]});
+};
+$("skipBtn").onclick=async()=>{
+ if(!active()||already()||game.challenge)return;
+ stopTimer();
+ await patch({answered:[...game.answered,key()],challenge:{text:random(game.skipDares),player:me()},activePlayer:me()});
+};
+async function dare(done){
+ if(!active()||!game.challenge)return;
+ let scores=[...game.scores];if(!done)scores[game.challenge.player]-=3;
+ await patch({scores,challenge:null,activePlayer:1-game.challenge.player,history:[...game.history,(done?"Dare completed":"Dare failed -3")]});
 }
-
-function makeRoomCode() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let result = "";
-  for (let i = 0; i < 6; i++) {
-    result += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return result;
-}
-
-function currentCard() {
-  const cards = categories[state.category];
-  return cards[state.index % cards.length];
-}
-
-function renderTabs() {
-  const tabs = $("categoryTabs");
-  tabs.innerHTML = "";
-  categoryNames.forEach(name => {
-    const button = document.createElement("button");
-    button.className = "tab" + (name === state.category ? " selected" : "");
-    button.textContent = name;
-    button.addEventListener("click", () => {
-  state.category = name;
-  state.index = 0;
-  state.revealed = false;
-
-  renderGame();
-  saveGameState();
-});
-    tabs.appendChild(button);
-  });
-}
-
-function renderHistory() {
-  const area = $("history");
-  area.innerHTML = "";
-  if (!state.history.length) {
-    const empty = document.createElement("div");
-    empty.className = "history-item";
-    empty.textContent = "No points yet. Award points for honest answers, completed dares, or laughs.";
-    area.appendChild(empty);
-    return;
-  }
-  [...state.history].reverse().forEach(item => {
-    const row = document.createElement("div");
-    row.className = "history-item";
-    row.textContent = item;
-    area.appendChild(row);
-  });
-}
-
-function renderGame() {
-  $("roomCodeDisplay").textContent = state.room;
-  $("roundLabel").textContent = "Round " + state.round;
-  $("playerLabel0").textContent = state.names[0];
-  $("playerLabel1").textContent = state.names[1];
-  $("roundWinName0").textContent = state.names[0];
-  $("roundWinName1").textContent = state.names[1];
-  $("score0").textContent = state.scores[0];
-  $("score1").textContent = state.scores[1];
-  $("playerBox0").classList.toggle("active", state.active === 0);
-  $("playerBox1").classList.toggle("active", state.active === 1);
-
-  const card = currentCard();
-  $("categoryPill").textContent = state.category.toUpperCase();
-  $("questionNumber").textContent = "CARD " + (state.index + 1);
-  $("questionText").textContent = card[0];
-  $("punishmentBox").textContent = "Challenge: " + card[1];
-  $("punishmentBox").classList.toggle("hidden", !state.revealed);
-  $("revealBtn").textContent = state.revealed ? "Hide challenge 🙈" : "Reveal challenge 👀";
-  renderTabs();
-  renderHistory();
-}
-
-async function saveGameState() {
-  if (!roomRef || applyingRemote) return;
-
-  try {
-    await update(roomRef, {
-      names: state.names,
-      scores: state.scores,
-      active: state.active,
-      category: state.category,
-      index: state.index,
-      round: state.round,
-      history: state.history,
-      revealed: state.revealed,
-      room: state.room,
-      updatedAt: Date.now()
-    });
-  } catch (error) {
-    console.error("Could not sync game:", error);
-    notify("Game sync failed. Check your connection.");
-  }
-}
-
-function award(player, points, reason) {
-  if (player !== 0 && player !== 1) return;
-
-  state.scores[player] += points;
-  state.history.push(state.names[player] + " +" + points + " — " + reason);
-  state.active = 1 - player;
-
-  renderGame();
-  saveGameState();
-
-  notify("+" + points + " points for " + state.names[player] + "!");
-}
-
-window.award = award;
-
-
-$("createBtn").addEventListener("click", async () => {
-  const first = $("hostName").value.trim() || "Player 1";
-  const enteredRoom = $("roomInput").value.trim().toUpperCase();
-
-  try {
-    $("createBtn").disabled = true;
-    $("connectionStatus").textContent = "● Connecting to Firebase...";
-
-    if (!auth.currentUser) {
-      await signInAnonymously(auth);
-    }
-
-    const uid = auth.currentUser.uid;
-    let room = enteredRoom;
-    let roomData;
-
-    if (!room) {
-      // Create a new, unique room
-      do {
-        room = makeRoomCode();
-        roomRef = ref(db, "rooms/" + room);
-        const existing = await get(roomRef);
-        if (!existing.exists()) break;
-      } while (true);
-
-      state = {
-        names: [first, "Player 2"],
-        scores: [0, 0],
-        active: 0,
-        category: categoryNames[0],
-        index: 0,
-        round: 1,
-        history: [],
-        revealed: false,
-        room: room
-      };
-
-      roomData = {
-        hostUid: uid,
-        guestUid: "",
-        ...state,
-        updatedAt: Date.now()
-      };
-
-      await set(roomRef, roomData);
-      notify("Room created! Share the code with your partner.");
-    } else {
-      // Join an existing room
-      roomRef = ref(db, "rooms/" + room);
-      const snapshot = await get(roomRef);
-
-      if (!snapshot.exists()) {
-        roomRef = null;
-        notify("Room not found. Ask your partner to create it first.");
-        return;
-      }
-
-      roomData = snapshot.val();
-
-      if (roomData.hostUid === uid) {
-        notify("You are already the host of this room.");
-      } else if (roomData.guestUid && roomData.guestUid !== uid) {
-        roomRef = null;
-        notify("This room already has two players.");
-        return;
-      } else {
-        await update(roomRef, {
-          guestUid: uid,
-          names: [roomData.names?.[0] || "Player 1", first],
-          updatedAt: Date.now()
-        });
-        notify("Joined your partner's room!");
-      }
-    }
-
-    state.room = room;
-
-    if (unsubscribeRoom) unsubscribeRoom();
-
-    unsubscribeRoom = onValue(roomRef, snapshot => {
-      const remote = snapshot.val();
-      if (!remote) return;
-
-      applyingRemote = true;
-      state.names = remote.names || ["Player 1", "Player 2"];
-      state.scores = remote.scores || [0, 0];
-      state.active = remote.active || 0;
-      state.category = remote.category || categoryNames[0];
-      state.index = remote.index || 0;
-      state.round = remote.round || 1;
-      state.history = remote.history || [];
-      state.revealed = remote.revealed || false;
-      state.room = remote.room || room;
-
-      $("connectionStatus").textContent = "● Connected to Firebase";
-      $("roomHelp").textContent = "Live room: share the code with your partner.";
-      $("setup").classList.add("hidden");
-      $("game").classList.remove("hidden");
-      renderGame();
-      applyingRemote = false;
-    });
-
-  } catch (error) {
-    console.error(error);
-    notify("Connection failed. Check Firebase settings and try again.");
-    $("connectionStatus").textContent = "● Connection failed";
-  } finally {
-    $("createBtn").disabled = false;
-  }
-});
-$("revealBtn").addEventListener("click", () => {
-  state.revealed = !state.revealed;
-  renderGame();
-  saveGameState();
-});
-
-$("nextBtn").addEventListener("click", () => {
-  const cards = categories[state.category];
-
-  state.index++;
-  if (state.index >= cards.length) {
-    state.index = 0;
-    state.round++;
-  }
-
-  state.active = 1 - state.active;
-  state.revealed = false;
-
-  renderGame();
-  saveGameState();
-});
-
-$("skipBtn").addEventListener("click", () => {
-  const cards = categories[state.category];
-  state.index = (state.index + 1) % cards.length;
-  state.active = 1 - state.active;
-  state.revealed = false;
-
-  renderGame();
-  saveGameState();
-
-  notify("Card skipped — no points lost.");
-});
-$("roundWin0").addEventListener("click", () => {
-  award(0, 5, "Won the round");
-});
-
-$("roundWin1").addEventListener("click", () => {
-  award(1, 5, "Won the round");
-});
-
-$("clearHistoryBtn").addEventListener("click", () => {
-  state.history = [];
-  renderHistory();
-  saveGameState();
-  notify("History cleared.");
-});
-$("resetBtn").addEventListener("click", () => {
-  if (!confirm("Reset both scores and history?")) return;
-
-  state.scores = [0, 0];
-  state.history = [];
-  state.round = 1;
-  state.index = 0;
-  state.active = 0;
-  state.revealed = false;
-
-  renderGame();
-  saveGameState();
-
-  notify("Scores reset.");
-});
-
-$("leaveBtn").addEventListener("click", () => {
-  if (unsubscribeRoom) {
-    unsubscribeRoom();
-    unsubscribeRoom = null;
-  }
-
-  roomRef = null;
-
-  $("game").classList.add("hidden");
-  $("setup").classList.remove("hidden");
-
-  notify("You left the room.");
-});
-
-$("shareBtn").addEventListener("click", async () => {
-  const invite = "Join my After Hours couples game! Room code: " +
-    state.room + "\nWebsite: " + location.href;
-
-  if (navigator.share) {
-    try {
-      await navigator.share({ title: "After Hours", text: invite });
-      return;
-    } catch (error) {
-      if (error.name === "AbortError") return;
-    }
-  }
-
-  try {
-    await navigator.clipboard.writeText(invite);
-    notify("Invite copied! Send it to your partner.");
-  } catch (error) {
-    window.prompt("Copy this invite and send it to your partner:", invite);
-  }
-});
-
-renderTabs();
+$("doneDareBtn").onclick=()=>dare(true);
+$("failedDareBtn").onclick=()=>dare(false);
+$("nextBtn").onclick=async()=>{
+ if(!active())return;
+ if(game.challenge)return alert("Complete the dare first.");
+ if(!already())return alert("Answer or skip first.");
+ stopTimer();let r=round(),idx=r.index+1;
+ if(idx>=10){
+ if(game.roundIndex===9){await patch({finished:true});return}
+ await patch({rounds:game.rounds.map((x,i)=>i===game.roundIndex?{...x,completed:true}:x),roundIndex:game.roundIndex+1,activePlayer:0,revealed:false});
+ }else await patch({rounds:game.rounds.map((x,i)=>i===game.roundIndex?{...x,index:idx}:x),activePlayer:1-me(),revealed:false});
+};
+$("roundWinBtn").onclick=async()=>{
+ if(!active())return;
+ let r=round();if(r.bonusAwarded)return alert("Bonus already awarded.");
+ let n=Number(prompt("Enter 1 for "+game.players[0].name+" or 2 for "+game.players[1].name));
+ if(n!==1&&n!==2)return;
+ let scores=[...game.scores];scores[n-1]+=10;
+ await patch({scores,rounds:game.rounds.map((x,i)=>i===game.roundIndex?{...x,winner:n-1,bonusAwarded:true}:x)});
+};
+$("newGameBtn").onclick=async()=>{
+ if(!isHost)return alert("Only the room creator can restart.");
+ await save({room:roomId,hostUid:uid,players:game.players,scores:[0,0],started:false,ready:[false,false]});
+};
+$("leaveBtn").onclick=()=>{
+ stopTimer();if(unsubscribe)unsubscribe();game=null;roomId="";hide("setup");hide("game");hide("finish");show("lobby");
+};
 </script>
 </body>
 </html>
