@@ -313,16 +313,43 @@ function renderGame() {
   renderHistory();
 }
 
+async function saveGameState() {
+  if (!roomRef || applyingRemote) return;
+
+  try {
+    await update(roomRef, {
+      names: state.names,
+      scores: state.scores,
+      active: state.active,
+      category: state.category,
+      index: state.index,
+      round: state.round,
+      history: state.history,
+      revealed: state.revealed,
+      room: state.room,
+      updatedAt: Date.now()
+    });
+  } catch (error) {
+    console.error("Could not sync game:", error);
+    notify("Game sync failed. Check your connection.");
+  }
+}
+
 function award(player, points, reason) {
   if (player !== 0 && player !== 1) return;
+
   state.scores[player] += points;
   state.history.push(state.names[player] + " +" + points + " — " + reason);
   state.active = 1 - player;
+
   renderGame();
+  saveGameState();
+
   notify("+" + points + " points for " + state.names[player] + "!");
 }
 
 window.award = award;
+
 
 $("createBtn").addEventListener("click", async () => {
   const first = $("hostName").value.trim() || "Player 1";
