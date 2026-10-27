@@ -271,13 +271,43 @@ function listen(){
  if(unsubscribe)unsubscribe();
  unsubscribe=onValue(roomRef(),s=>{if(s.exists()){game=s.val();render()}});
 }
-$("createBtn").onclick=async()=>{
- try{
- await login();let name=$("name").value.trim();if(!name)return alert("Enter your name.");
- roomId=Math.random().toString(36).slice(2,8).toUpperCase();isHost=true;
- game={room:roomId,hostUid:uid,players:[{uid,name},null],scores:[0,0],started:false,ready:[false,false]};
- await save(game);listen();hide("lobby");show("setup");
- }catch(e){msg("lobbyStatus",e.message)}
+
+$("createBtn").onclick = async () => {
+  msg("lobbyStatus", "Creating room...");
+
+  try {
+    await login();
+
+    const name = $("name").value.trim();
+
+    if (!name) {
+      msg("lobbyStatus", "Please enter your name.");
+      return;
+    }
+
+    roomId = Math.random().toString(36).slice(2, 8).toUpperCase();
+    isHost = true;
+
+    game = {
+      room: roomId,
+      hostUid: uid,
+      players: [{ uid: uid, name: name }, null],
+      scores: [0, 0],
+      started: false,
+      ready: [false, false]
+    };
+
+    await save(game);
+    listen();
+
+    hide("lobby");
+    show("setup");
+
+    msg("setupStatus", "Room created! Code: " + roomId);
+  } catch (e) {
+    console.error("Create room failed:", e);
+    msg("lobbyStatus", "Create failed: " + (e.message || e));
+  }
 };
 
 $("joinBtn").onclick = async () => {
