@@ -4,103 +4,117 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>After Hours ❤️</title>
+<title>Game of Understanding ❤️</title>
 <style>
+:root{--bg:#100c1b;--panel:#21172f;--border:#493252;--pink:#ff75aa;--gold:#ffd477;--muted:#c8bbd4}
 *{box-sizing:border-box}
-body{margin:0;background:#120b19;color:#fff0f7;font-family:Arial,sans-serif}
-header{text-align:center;padding:25px 10px}
-h1{color:#ff75aa;margin:0}
-main{max-width:700px;margin:auto;padding:12px}
-.panel{background:#24152f;border:1px solid #51304e;border-radius:16px;padding:17px;margin-bottom:14px}
-input,textarea{width:100%;padding:12px;margin:6px 0 12px;background:#150d1d;color:white;border:1px solid #65466c;border-radius:8px;font-size:16px}
-button{padding:12px;border:0;border-radius:9px;background:#ff75aa;color:#280c1b;font-weight:bold;margin:4px;cursor:pointer}
-.secondary{background:#493352;color:white}
-.row{display:flex;flex-wrap:wrap;gap:6px}
-.row>*{flex:1}
-.hidden{display:none!important}
-.small{font-size:13px;color:#cbb9d4;line-height:1.5}
-.scoreboard{display:flex;gap:10px}
-.score{flex:1;background:#150d1d;padding:12px;text-align:center;border-radius:10px}
-.score strong{display:block;font-size:25px;color:#ff75aa}
-.tag{background:#48263f;padding:7px 10px;border-radius:20px;display:inline-block}
-#question{font-size:22px;line-height:1.5;margin:22px 0}
-#timer{font-size:32px;color:#ff75aa;font-weight:bold}
+body{margin:0;background:var(--bg);color:#fff3fa;font-family:Arial,sans-serif}
+header{text-align:center;padding:24px 12px;background:#191025}
+h1{margin:0;color:var(--pink)}h2,h3{line-height:1.3}
+main{max-width:900px;margin:auto;padding:14px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;margin:12px 0}
+input,textarea,select{width:100%;padding:12px;margin:6px 0 12px;background:#140e20;color:white;border:1px solid #65466c;border-radius:8px;font-size:16px}
+button{padding:11px 14px;border:0;border-radius:9px;background:var(--pink);color:#280c1b;font-weight:bold;margin:4px;cursor:pointer}
+button.secondary{background:#493752;color:white}
+button:disabled{opacity:.4;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:7px}.row>*{flex:1}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+.gamecard{background:#171020;border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;cursor:pointer}
+.gamecard:hover{border-color:var(--pink)}
+.hidden{display:none!important}.small{color:var(--muted);font-size:13px;line-height:1.5}
+.tag{display:inline-block;background:#48263f;padding:7px 10px;border-radius:20px;margin:3px}
+.scoreboard{display:flex;gap:10px}.score{flex:1;background:#140e20;padding:12px;text-align:center;border-radius:10px}
+.score strong{display:block;color:var(--pink);font-size:25px}
+.question{font-size:22px;line-height:1.5;margin:22px 0}
+#timer{font-size:30px;color:var(--pink);font-weight:bold}
+.titlecard{padding:16px;border:1px solid var(--gold);border-radius:13px;margin:10px 0;background:linear-gradient(135deg,#30203c,#181020)}
+.titlecard h3{color:var(--gold);margin:4px 0}
+.champion{border:1px solid var(--gold);background:#2a2030;border-radius:12px;padding:14px}
+footer{text-align:center;color:var(--muted);padding:25px}
 </style>
 </head>
 <body>
 <header>
-<h1>AFTER HOURS ❤️</h1>
-<p>Couples Truth or Dare</p>
+  <h1>GAME OF UNDERSTANDING ❤️</h1>
+  <p>Play together. Understand each other. Become the champion.</p>
+  <div id="championHome" class="champion" style="max-width:600px;margin:14px auto">
+    <strong>🏆 Latest Tournament Champion</strong>
+    <p id="championText">Loading champion...</p>
+  </div>
 </header>
 <main>
 <section class="panel" id="lobby">
-<h2>💋 Create or Join Room</h2>
-<input id="name" placeholder="Your name" maxlength="25">
-<div class="row">
-<button id="createBtn">Create Room</button>
-<button id="joinBtn" class="secondary">Join Room</button>
-</div>
-<input id="roomInput" placeholder="Enter room code">
-<p id="lobbyStatus" class="small"></p>
+  <h2>🎮 Multiplayer Lobby</h2>
+  <input id="name" maxlength="25" placeholder="Your player name">
+  <div class="row">
+    <button id="createBtn">Create Room</button>
+    <button id="joinBtn" class="secondary">Join Room</button>
+  </div>
+  <input id="roomInput" placeholder="Room code to join">
+  <p id="lobbyStatus" class="small"></p>
 </section>
 
-<section class="panel hidden" id="setup">
-<h2>💞 Game Setup</h2>
-<p id="roomLabel" class="tag"></p>
-<p id="playersLabel"></p>
-<p class="small">10 rounds · 10 questions each · 10-second timer</p>
-<h3>Custom Round 1 — 10–15 questions</h3>
-<textarea id="custom1" rows="4" placeholder="One question per line"></textarea>
-<h3>Custom Round 2 — 10–15 questions</h3>
-<textarea id="custom2" rows="4" placeholder="One question per line"></textarea>
-<h3>Skip Dares — 8–15</h3>
-<textarea id="skipDares" rows="3" placeholder="One dare per line"></textarea>
-<h3>Final Loser Dares — 3–6</h3>
-<textarea id="finalDares" rows="2" placeholder="One dare per line"></textarea>
-<button id="readyBtn">I'm Ready ❤️</button>
-<p id="setupStatus" class="small"></p>
+<section class="panel hidden" id="hub">
+  <p><span class="tag" id="roomLabel"></span></p>
+  <p id="playersLabel"></p>
+  <h2>Choose your game</h2>
+  <div class="grid" id="gameGrid"></div>
+  <h3>Tournament setup</h3>
+  <label>Format</label>
+  <select id="format">
+    <option value="singles">Singles — individual players</option>
+    <option value="teams">Teams — exactly two players per team</option>
+  </select>
+  <label>Number of tournament games</label>
+  <select id="gameCount">
+    <option value="3">3 games</option>
+    <option value="5" selected>5 games</option>
+    <option value="11">11 games — all modes</option>
+  </select>
+  <div class="row">
+    <button id="startTournament">Start Tournament</button>
+    <button id="leaveBtn" class="secondary">Leave Room</button>
+  </div>
+  <p id="hubStatus" class="small"></p>
 </section>
 
-<section class="panel hidden" id="game">
-<p><span id="roundLabel" class="tag"></span> <span id="categoryLabel" class="tag"></span></p>
-<div class="scoreboard">
-<div class="score"><span id="player0">Player 1</span><strong id="score0">0</strong></div>
-<div class="score"><span id="player1">Player 2</span><strong id="score1">0</strong></div>
-</div>
-<p id="turnLabel"></p>
-<div id="timer">10</div>
-<div id="question">Question appears here</div>
-<div id="challenge" class="hidden"></div>
-<div id="answer" class="hidden">Discuss your answer together ❤️</div>
-<div class="row">
-<button id="answerBtn">Answer (+2)</button>
-<button id="skipBtn" class="secondary">Skip → Dare</button>
-</div>
-<div class="row">
-<button id="doneDareBtn" class="secondary">Completed Dare</button>
-<button id="failedDareBtn" class="secondary">Failed Dare (−3)</button>
-</div>
-<div class="row">
-<button id="nextBtn" class="secondary">Next Question</button>
-<button id="roundWinBtn" class="secondary">Round Winner +10</button>
-</div>
-<p id="gameStatus" class="small"></p>
+<section class="panel hidden" id="play">
+  <p><span class="tag" id="modeLabel"></span><span class="tag" id="turnLabel"></span></p>
+  <div class="scoreboard">
+    <div class="score"><span id="p0name"></span><strong id="p0score">0</strong></div>
+    <div class="score"><span id="p1name"></span><strong id="p1score">0</strong></div>
+  </div>
+  <p class="small" id="gameInstructions"></p>
+  <div id="board" class="grid"></div>
+  <p id="playQuestion" class="question"></p>
+  <div id="timer">10</div>
+  <div id="playControls" class="row"></div>
+  <p id="playStatus" class="small"></p>
+  <button id="finishGameBtn">Finish Game & Award Title Cards</button>
+  <button id="backHubBtn" class="secondary">Return to Hub</button>
 </section>
 
-<section class="panel hidden" id="finish">
-<h2>🏆 Final Results</h2>
-<div id="results"></div>
-<h3>Final Loser Dare</h3>
-<p id="loserDare"></p>
-<button id="newGameBtn">Play Again</button>
-<button id="leaveBtn" class="secondary">Leave Room</button>
+<section class="panel hidden" id="awards">
+  <h2>🎖️ Game Title Cards</h2>
+  <p id="awardSummary"></p>
+  <div id="awardCards"></div>
+  <button id="continueBtn">Continue Tournament</button>
+</section>
+
+<section class="panel hidden" id="final">
+  <h2>🏆 Tournament Results</h2>
+  <div id="finalResults"></div>
+  <h3>Championship Title Cards</h3>
+  <div id="finalCards"></div>
+  <button id="homeBtn">Return to Game Hub</button>
 </section>
 </main>
+<footer>Game of Understanding ❤️</footer>
 
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import {getDatabase,ref,set,get,update,onValue} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+import {getDatabase,ref,set,get,update,onValue,runTransaction} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
 
 const firebaseConfig={
  apiKey:"AIzaSyDi_bJDs2Kw3Kqilf0TwKSe0PRvs_MsJ34",
@@ -112,418 +126,343 @@ const firebaseConfig={
  appId:"1:84144412869:web:4a65b973503ae65b95b8ac",
  measurementId:"G-74JE4PS8BM"
 };
-const app=initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getDatabase(app);
-let uid,roomId,isHost=false,game=null,unsubscribe=null,timer=null,seconds=10;
-
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getDatabase(app);
+let uid="",roomId="",isHost=false,state=null,unsub=null,clock=null,seconds=10,localMode="";
 const $=id=>document.getElementById(id);
-const categories={
+const modes=[
+["ludo","🎲 Ludo"],["snakes","🐍 Snake & Ladder"],["cards","🃏 Card Challenge"],
+["afterhours","❤️ After Hours"],["rps","✊ Rock Paper Scissors"],
+["ttt","⭕ Tic-Tac-Toe Tournament"],["connect4","🔴 Connect Four"],
+["snakearena","🐍 Snake Arena"],["memory","🧠 Memory Match"],
+["quiz","⚡ Quick Quiz"],["reaction","🎯 Reaction Challenge"]
+];
+const questions={
 "Funny & Comedy":["Tell a funny embarrassing story.","Make your funniest face.","Tell a joke.","Imitate your partner.","Invent a silly nickname.","Dance for ten seconds.","What makes you laugh?","Act like a cat.","Describe your funniest memory.","Sing a silly song."],
-"Spicy & Flirty":["What first attracted you?","Give a sincere compliment.","Describe your ideal date.","What makes you blush?","Give a playful wink.","What is your favourite romantic memory?","Hold eye contact for ten seconds.","What romantic gesture do you like?","Choose a romantic song.","Plan a surprise date."],
-"Jealousy":["What helps you feel secure?","What does trust mean to you?","What boundary matters most?","How should couples discuss jealousy?","What makes you feel appreciated?","What behaviour bothers you?","How do you rebuild trust?","What reassures you?","What is a healthy boundary?","Share something you appreciate."],
-"Wild Card":["Do a silly dance.","Give a dramatic speech.","Invent a handshake.","Sing one song line.","Make your partner laugh.","Do a runway walk.","Tell a tongue twister.","Create a superhero name.","Act out an animal.","Make up a holiday."],
 "Relationship":["What makes you feel loved?","Share a favourite memory.","What goal should we share?","What helps us communicate?","What makes you feel appreciated?","Describe your ideal weekend.","What activity should we try?","What do you admire in me?","What is our biggest strength?","What should we learn together?"],
-"Ex & Past Relationships":["What lesson have you learned?","What boundary matters to you?","What helps people move on?","What makes a relationship healthy?","What builds trust?","What does closure mean?","What have you learned about communication?","What advice would you give your younger self?","What quality matters most now?","What makes you feel respected?"],
-"Dares & Challenges":["Dance for ten seconds.","Give three compliments.","Do a funny impression.","Sing a chorus.","Invent a handshake.","Tell a joke.","Make a funny face.","Do a dramatic walk.","Speak in an accent.","Make your partner smile."],
-"Brain & Memory":["Name five things you like about me.","Recall our first conversation.","Name three shared memories.","What is my favourite snack?","Name five countries.","Say three colours quickly.","Recall a happy moment.","Name four animals.","Describe my ideal day.","Name three things in the room."],
-"Quick Maths":["What is 7 + 8?","What is 19 − 6?","What is 6 × 4?","What is 24 ÷ 3?","What is 12 + 17?","What is 50 − 23?","What is 9 × 7?","What is 81 ÷ 9?","What is 15 + 16?","What is 8 × 8?"],
 "Truth & Confessions":["What are you proud of?","What fear have you overcome?","What is your secret talent?","What makes you confident?","What do you want to learn?","What makes you laugh?","What habit would you improve?","What are you grateful for?","What is something people misunderstand?","Share a kind memory."],
-"Naughty & Wild":["Give a playful compliment.","Describe a romantic date.","What makes you blush?","Give a cheeky wink.","Choose a romantic song.","Hold hands for fifteen seconds.","Invent a flirty nickname.","Describe your perfect evening.","Ask a playful question.","Share a romantic wish."],
-"Friendship & Secrets":["What makes a good friend?","Share a funny memory.","What makes you trust someone?","What do you value in friendship?","What makes you feel understood?","What are you grateful for?","What is a shared joke?","What is a kind thing you did?","What activity should we try?","What makes you smile?"],
-"Movies, Music & Pop Culture":["Name a favourite film.","Sing a song line.","Which character resembles you?","What song describes us?","Name three films.","What is your favourite genre?","Act out a movie scene.","Which fictional world would you visit?","Hum a song for me to guess.","What film can you watch repeatedly?"],
-"Would You Rather?":["Beach or mountains?","Movie night or game night?","Sunrise or sunset date?","Cook together or eat out?","Text or call?","Adventure or staycation?","Gifts or quality time?","Dance or sing together?","City or countryside?","Plan everything or be spontaneous?"],
-"Random & Unexpected":["What skill would you learn instantly?","Name a pet dragon.","Where would you travel in time?","What would you take to an island?","Invent an ice cream flavour.","What is your theme song?","Choose a superpower.","Describe your dream house.","What would you do with a free day?","What animal would be funniest if it spoke?"]
+"Quick Maths":["What is 7 + 8?","What is 19 − 6?","What is 6 × 4?","What is 24 ÷ 3?","What is 12 + 17?","What is 50 − 23?","What is 9 × 7?","What is 81 ÷ 9?","What is 15 + 16?","What is 8 × 8?"],
+"Would You Rather?":["Beach or mountains?","Movie night or game night?","Sunrise or sunset date?","Cook together or eat out?","Text or call?","Adventure or staycation?","Gifts or quality time?","Dance or sing together?","City or countryside?","Plan everything or be spontaneous?"]
 };
-const winnerTitles=["All-Time Winner","Master of the Game","Simple Winner","Highest Score Winner","History Repeat","All Time Winner"];
-const loserTitles=["All Time Loser","🗑️ Box","Loser and Loser","Worst Player","Monkey Player"];
-const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-const lines=id=>$(id).value.split("\n").map(x=>x.trim()).filter(Boolean);
-const random=a=>a[Math.floor(Math.random()*a.length)];
-const roomRef=()=>ref(db,"rooms/"+roomId);
-const me=()=>game.players.findIndex(p=>p?.uid===uid);
-const round=()=>game.rounds[game.roundIndex];
-const active=()=>game.activePlayer===me();
-const key=()=>game.roundIndex+":"+round().index;
-const already=()=>game.answered.includes(key());
-const show=id=>$(id).classList.remove("hidden");
-const hide=id=>$(id).classList.add("hidden");
-const msg=(id,s)=>$(id).textContent=s;
-
+const dareDefaults=["Dance for ten seconds.","Give three compliments.","Do a funny impression.","Sing a chorus.","Invent a handshake.","Tell a joke.","Make a funny face.","Do a dramatic walk."];
+const $room=()=>ref(db,"rooms/"+roomId);
+const playerIndex=()=>state.players.findIndex(p=>p?.uid===uid);
+const shuffle=a=>[...a].sort(()=>Math.random()-.5);
+const escapeHTML=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function say(id,text){$(id).textContent=text}
+function show(id){$(id).classList.remove("hidden")}
+function hide(id){$(id).classList.add("hidden")}
+function stopClock(){if(clock)clearInterval(clock);clock=null}
 async function login(){if(!auth.currentUser)await signInAnonymously(auth);uid=auth.currentUser.uid}
-async function save(data){await set(roomRef(),data)}
-async function patch(data){await update(roomRef(),{...data,updatedAt:Date.now()})}
-function stopTimer(){if(timer)clearInterval(timer);timer=null}
-
-function startTimer() {
-  stopTimer();
-
-  if (!game || !game.started || game.finished ||
-      game.challenge || already()) {
-    return;
-  }
-
-  seconds = 10;
-  $("timer").textContent = "10";
-  msg("gameStatus", "⏳ Time is running!");
-  show("timer");
-
-  timer = setInterval(() => {
-    seconds = Math.max(0, seconds - 1);
-    $("timer").textContent = seconds;
-
-    if (seconds === 0) {
-      stopTimer();
-
-      if (game && active() && !already() && !game.challenge) {
-        $("answerBtn").disabled = true;
-        $("skipBtn").disabled = true;
-        msg("gameStatus", "⏰ Time's up! Tap Next Question.");
-      }
-    }
-  }, 1000);
-}
-
-function render() {
-  if (!game) return;
-
-  if (!game.started) {
-    stopTimer();
-    show("setup");
-    hide("game");
-    hide("finish");
-    msg("roomLabel", "Room: " + roomId);
-    msg(
-      "playersLabel",
-      game.players.map(p => p?.name || "Waiting for partner").join(" ❤️ ")
-    );
-    return;
-  }
-
-  if (game.finished) {
-    stopTimer();
-    hide("game");
-    show("finish");
-    results();
-    return;
-  }
-
-  hide("setup");
-  hide("finish");
-  show("game");
-
-  const r = round();
-
-  if (!r || !Array.isArray(r.questions)) {
-    stopTimer();
-    msg("question", "Question unavailable. Please restart the game.");
-    return;
-  }
-
-  msg("player0", game.players[0]?.name || "Player 1");
-  msg("player1", game.players[1]?.name || "Player 2");
-  msg("score0", game.scores?.[0] ?? 0);
-  msg("score1", game.scores?.[1] ?? 0);
-
-  msg("roundLabel", "Round " + (game.roundIndex + 1) + "/10");
-  msg("categoryLabel", r.name || "Game Round");
-  msg(
-    "turnLabel",
-    (game.players[game.activePlayer]?.name || "Player") + "'s turn"
-  );
-
-  const question = r.questions[r.index];
-
-  msg(
-    "question",
-    question || "No question found. Please restart the game."
-  );
-
-  show("question");
-  show("timer");
-
-  $("answer").classList.toggle("hidden", !game.revealed);
-  $("challenge").classList.toggle("hidden", !game.challenge);
-
-  if (game.challenge) {
-    msg("challenge", "🎲 Dare: " + game.challenge.text);
-    stopTimer();
-  } else if (question && !already() && !timer) {
-    startTimer();
-  } else if (already()) {
-    stopTimer();
-    msg("timer", "Done");
-  }
-
-  $("answerBtn").disabled = !active() || !!game.challenge || already();
-  $("skipBtn").disabled = !active() || !!game.challenge || already();
-  $("doneDareBtn").disabled = !active() || !game.challenge;
-  $("failedDareBtn").disabled = !active() || !game.challenge;
-  $("nextBtn").disabled = !active();
-  $("roundWinBtn").disabled = !active() || !!r.bonusAwarded;
- }
-function results(){
- let w=game.scores[0]===game.scores[1]?-1:game.scores[0]>game.scores[1]?0:1;
- $("results").innerHTML=game.players.map((p,i)=>"<div class='panel'><h3>"+p.name+"</h3>Score: "+game.scores[i]+"<p>"+(w===-1?"Tie Game":random(i===w?winnerTitles:loserTitles))+"</p></div>").join("");
- msg("loserDare",w<0?"Choose a dare together.":game.players[1-w].name+": "+random(game.finalDares));
-}
+async function patch(data){await update($room(),{...data,updatedAt:Date.now()})}
+async function readRoom(){let s=await get($room());return s.exists()?s.val():null}
 function listen(){
- if(unsubscribe)unsubscribe();
- unsubscribe=onValue(roomRef(),s=>{if(s.exists()){game=s.val();render()}});
+ if(unsub)unsub();
+ unsub=onValue($room(),s=>{
+  if(!s.exists())return;
+  state=s.val();render();
+ });
 }
-
-$("createBtn").onclick = async () => {
-  msg("lobbyStatus", "Creating room...");
-
-  try {
-    await login();
-
-    const name = $("name").value.trim();
-
-    if (!name) {
-      msg("lobbyStatus", "Please enter your name.");
-      return;
-    }
-
-    roomId = Math.random().toString(36).slice(2, 8).toUpperCase();
-    isHost = true;
-
-    game = {
-      room: roomId,
-      hostUid: uid,
-      players: [{ uid: uid, name: name }, null],
-      scores: [0, 0],
-      started: false,
-      ready: [false, false]
-    };
-
-    await save(game);
-    listen();
-
-    hide("lobby");
-    show("setup");
-
-    msg("setupStatus", "Room created! Code: " + roomId);
-  } catch (e) {
-    console.error("Create room failed:", e);
-    msg("lobbyStatus", "Create failed: " + (e.message || e));
-  }
-};
-
-$("joinBtn").onclick = async () => {
-  msg("lobbyStatus", "Connecting to room...");
-
-  try {
-    await login();
-
-    const name = $("name").value.trim();
-    const code = $("roomInput").value.trim().toUpperCase();
-
-    if (!name || !code) {
-      msg("lobbyStatus", "Please enter your name and room code.");
-      return;
-    }
-
-    roomId = code;
-
-    const snapshot = await get(roomRef());
-
-    if (!snapshot.exists()) {
-      msg("lobbyStatus", "Room not found. Check the room code.");
-      return;
-    }
-
-    game = snapshot.val();
-
-    if (!Array.isArray(game.players)) {
-      msg("lobbyStatus", "This room has invalid game data.");
-      return;
-    }
-
-    const existingIndex = game.players.findIndex(p => p?.uid === uid);
-
-    if (existingIndex === -1) {
-      const emptyIndex = game.players.findIndex(p => !p);
-
-      if (emptyIndex === -1) {
-        msg("lobbyStatus", "Room is full.");
-        return;
-      }
-
-      game.players[emptyIndex] = { uid, name };
-
-      if (!Array.isArray(game.ready)) game.ready = [false, false];
-      game.ready[emptyIndex] = false;
-
-      await save(game);
-    }
-
-    listen();
-    hide("lobby");
-    render();
-
-    msg("setupStatus", "Joined successfully! ❤️");
-  } catch (error) {
-    console.error("Join room failed:", error);
-    msg("lobbyStatus", "Join failed: " + (error.message || error));
-  }
-};
-$("readyBtn").onclick=async()=>{
- if(!game||me()<0)return alert("Join a room first.");
- let c1=lines("custom1"),c2=lines("custom2"),sd=lines("skipDares"),fd=lines("finalDares");
- if(c1.length<10||c1.length>15||c2.length<10||c2.length>15)return alert("Add 10–15 questions to each custom round.");
- if(sd.length<8||sd.length>15)return alert("Add 8–15 skip dares.");
- if(fd.length<3||fd.length>6)return alert("Add 3–6 final dares.");
- let contributions={...(game.contributions||{})};contributions[me()]={custom:[c1,c2],skipDares:sd,finalDares:fd};
- let ready=[...(game.ready||[false,false])];ready[me()]=true;await patch({contributions,ready});
- msg("setupStatus","You're ready! Waiting for your partner.");
- if(isHost&&ready[0]&&ready[1]){
- let c=[[],[]],d=[],f=[];
- Object.values(contributions).forEach(v=>{v.custom.forEach((a,i)=>c[i].push(...a));d.push(...v.skipDares);f.push(...v.finalDares)});
- c=c.map(a=>[...new Set(a)]);
- if(c.some(a=>a.length<10))return alert("Each custom round needs 10 unique questions.");
- let chosen=shuffle(Object.keys(categories)).slice(0,8);
- let rounds=chosen.map(n=>({name:n,type:"category",questions:shuffle(categories[n]).slice(0,10),index:0,bonusAwarded:false}));
- rounds.push({name:"Custom Round 1",type:"custom",questions:shuffle(c[0]).slice(0,10),index:0,bonusAwarded:false});
- rounds.push({name:"Custom Round 2",type:"custom",questions:shuffle(c[1]).slice(0,10),index:0,bonusAwarded:false});
- await save({...game,started:true,rounds:shuffle(rounds),roundIndex:0,activePlayer:0,revealed:false,challenge:null,
-answered:[],
-history:[],
-roundPoints:Array.from({length:10},()=>[0,0]),
-skipDares:d,
-finalDares:f,
-scores:[0,0],
-finished:false;
+function render(){
+ if(!state)return;
+ hide("lobby");
+ const game=state.currentGame;
+ if(state.phase==="final"){hide("hub");hide("play");hide("awards");show("final");renderFinal();return}
+ if(state.phase==="awards"){hide("play");hide("hub");hide("final");show("awards");renderAwards();return}
+ if(state.phase==="play"&&game){hide("hub");hide("awards");hide("final");show("play");renderGame();return}
+ hide("play");hide("awards");hide("final");show("hub");
+ say("roomLabel","Room: "+roomId);
+ say("playersLabel",state.players.map(p=>p?p.name:"Waiting for player").join(" ❤️ "));
+ drawGameCards();
+ say("hubStatus",state.phase==="tournament"?"Tournament in progress. Selected games: "+(state.tournament?.order?.length||0):"Choose a game or start a tournament.");
+}
+function drawGameCards(){
+ $("gameGrid").innerHTML=modes.map(([id,label])=>`<div class="gamecard" data-mode="${id}"><strong>${label}</strong><p class="small">${id==="afterhours"?"Couples questions, dares and rounds":id==="ludo"||id==="snakes"?"Board-game mode": "Play and score together"}</p><button data-play="${id}">Play</button></div>`).join("");
+ $("gameGrid").querySelectorAll("[data-play]").forEach(b=>b.onclick=()=>startGame(b.dataset.play,false));
+}
+function addControl(label,fn,disabled=false){
+ const b=document.createElement("button");b.textContent=label;b.disabled=disabled;b.onclick=fn;$("playControls").append(b);
+}
+function renderGame(){
+ const g=state.currentGame;if(!g)return;
+ say("modeLabel",modes.find(x=>x[0]===g.mode)?.[1]||g.mode);
+ say("turnLabel","Turn: "+(state.players[g.turn]?.name||"Player"));
+ say("p0name",state.players[0]?.name||"Player 1");say("p1name",state.players[1]?.name||"Player 2");
+ say("p0score",g.scores?.[0]||0);say("p1score",g.scores?.[1]||0);
+ $("playControls").innerHTML="";$("board").innerHTML="";
+ say("gameInstructions",g.mode==="afterhours"?"After Hours: 10 rounds, 10 questions per round, 10-second timer. Correct answer +2; failed dare −3; round winner +10. Tournament points are tracked separately.": "Take turns and complete the challenge. Only the current player can submit a move.");
+ if(g.mode==="afterhours")renderAfterHours(g);
+ else if(g.mode==="rps")renderRPS(g);
+ else if(g.mode==="ttt")renderTTT(g);
+ else if(g.mode==="connect4")renderConnect(g);
+ else if(g.mode==="memory")renderMemory(g);
+ else if(g.mode==="quiz")renderQuiz(g);
+ else if(g.mode==="reaction")renderReaction(g);
+ else renderSimpleGame(g);
+}
+function renderAfterHours(g){
+ const r=g.rounds[g.roundIndex];if(!r)return;
+ say("playQuestion",`Round ${g.roundIndex+1}/10 · Question ${r.index+1}/10\n${r.questions[r.index]||"Question complete"}`);
+ $("board").innerHTML="";
+ say("timer",g.doneCurrent?"Done":String(g.seconds??10));
+ addControl("Answer (+2)",()=>afterAnswer(),g.turn!==playerIndex()||g.doneCurrent||!!g.challenge);
+ addControl("Skip → Dare",()=>afterSkip(),g.turn!==playerIndex()||g.doneCurrent||!!g.challenge);
+ if(g.challenge){
+  say("playQuestion","🎲 Dare: "+g.challenge.text);
+  addControl("Completed Dare",()=>resolveDare(true),g.turn!==playerIndex());
+  addControl("Failed Dare (−3)",()=>resolveDare(false),g.turn!==playerIndex());
  }
-};
-
-$("answerBtn").onclick = async () => {
-  if (!active() || already() || game.challenge) return;
-
-  stopTimer();
-
-  const player = me();
-  const scores = [...game.scores];
-  scores[player] += 2;
-
-  const roundPoints = (game.roundPoints || []).map(x => [...x]);
-  while (roundPoints.length < 10) roundPoints.push([0, 0]);
-
-  roundPoints[game.roundIndex][player] += 2;
-
-  await patch({
-    scores,
-    roundPoints,
-    answered: [...game.answered, key()],
-    revealed: true,
-    activePlayer: 1 - player,
-    history: [...(game.history || []),
-      game.players[player].name + " answered +2"]
-  });
-};
-$("skipBtn").onclick=async()=>{
- if(!active()||already()||game.challenge)return;
- stopTimer();
- await patch({answered:[...game.answered,key()],challenge:{text:random(game.skipDares),player:me()},activePlayer:me()});
-};
-async function dare(done){
- if(!active()||!game.challenge)return;
- let scores=[...game.scores];if(!done)scores[game.challenge.player]-=3;
- await patch({scores,challenge:null,activePlayer:1-game.challenge.player,history:[...game.history,(done?"Dare completed":"Dare failed -3")]});
+ addControl("Next Question",()=>afterNext(),g.turn!==playerIndex()||!g.doneCurrent||!!g.challenge);
+ addControl("Award Round +10",()=>awardAfterRound(),g.turn!==playerIndex()||!!r.bonusAwarded);
 }
-$("doneDareBtn").onclick=()=>dare(true);
-$("failedDareBtn").onclick=()=>dare(false);
-
-$("nextBtn").onclick = async () => {
-  if (!active()) return;
-  if (game.challenge) {
-    alert("Complete the dare first.");
-    return;
+async function afterAnswer(){
+ const g=state.currentGame,i=playerIndex();if(g.turn!==i||g.doneCurrent||g.challenge)return;
+ stopClock();const scores=[...g.scores];scores[i]+=2;
+ const rp=g.roundPoints.map(x=>[...x]);rp[g.roundIndex][i]+=2;
+ await patch({currentGame:{...g,scores,roundPoints:rp,doneCurrent:true,turn:1-i}});
+}
+async function afterSkip(){
+ const g=state.currentGame;if(g.turn!==playerIndex()||g.doneCurrent||g.challenge)return;
+ stopClock();await patch({currentGame:{...g,doneCurrent:true,challenge:{text:shuffle(g.skipDares)[0],player:playerIndex()}}});
+}
+async function resolveDare(completed){
+ const g=state.currentGame;if(g.turn!==playerIndex()||!g.challenge)return;
+ const scores=[...g.scores];if(!completed)scores[g.challenge.player]-=3;
+ await patch({currentGame:{...g,scores,challenge:null,turn:1-g.challenge.player}});
+}
+async function awardAfterRound(){
+ const g=state.currentGame,r=g.rounds[g.roundIndex];if(r.bonusAwarded)return;
+ const rp=g.roundPoints[g.roundIndex],scores=[...g.scores];
+ let winner=rp[0]===rp[1]?-1:rp[0]>rp[1]?0:1;
+ if(winner>=0)scores[winner]+=10;
+ const rounds=g.rounds.map((x,i)=>i===g.roundIndex?{...x,bonusAwarded:true,winner}:x);
+ await patch({currentGame:{...g,scores,rounds}});
+}
+async function afterNext(){
+ const g=state.currentGame;if(g.turn!==playerIndex()||!g.doneCurrent||g.challenge)return;
+ let rounds=g.rounds.map(x=>({...x})),rp=g.roundPoints.map(x=>[...x]),scores=[...g.scores];
+ const r=rounds[g.roundIndex];
+ if(!r.bonusAwarded){
+  const a=rp[g.roundIndex],w=a[0]===a[1]?-1:a[0]>a[1]?0:1;
+  if(w>=0)scores[w]+=10;
+  r.bonusAwarded=true;r.winner=w;
+ }
+ if(r.index<9){r.index++;await patch({currentGame:{...g,rounds,roundPoints:rp,scores,turn:1-playerIndex(),doneCurrent:false,challenge:null}});return}
+ if(g.roundIndex<9){await patch({currentGame:{...g,rounds,roundPoints:rp,scores,roundIndex:g.roundIndex+1,turn:0,doneCurrent:false,challenge:null}});return}
+ await endGame({...g,rounds,scores,roundPoints:rp});
+}
+function renderRPS(g){
+ say("playQuestion","Choose Rock, Paper or Scissors.");
+ ["✊ Rock","✋ Paper","✌️ Scissors"].forEach(x=>addControl(x,()=>submitMove(x),g.turn!==playerIndex()||!!g.moves?.[playerIndex()]));
+}
+function renderTTT(g){
+ say("playQuestion","Tap a square to place your mark.");
+ const board=g.board||Array(9).fill("");
+ $("board").style.gridTemplateColumns="repeat(3,1fr)";
+ board.forEach((x,i)=>{const b=document.createElement("button");b.textContent=x||" ";b.style.minHeight="65px";b.disabled=!!x||g.turn!==playerIndex()||!!g.winner;b.onclick=()=>submitBoardMove(i);$("board").append(b)});
+}
+function renderConnect(g){
+ say("playQuestion","Choose a column to drop your piece.");
+ const board=g.board||Array(42).fill("");
+ $("board").style.gridTemplateColumns="repeat(7,1fr)";
+ for(let c=0;c<7;c++)addControl(String(c+1),()=>submitBoardMove(c),g.turn!==playerIndex()||!!g.winner);
+ $("board").innerHTML=board.map(v=>`<div style="padding:8px;text-align:center;background:#140e20;border-radius:5px">${v||"·"}</div>`).join("");
+}
+function renderMemory(g){
+ say("playQuestion","Find matching pairs.");
+ const deck=g.deck||[];
+ deck.forEach((v,i)=>addControl(g.revealed?.includes(i)||g.matched?.includes(i)?v:"?",()=>memoryPick(i),g.turn!==playerIndex()||g.revealed?.length===2||g.matched?.includes(i)));
+}
+function renderQuiz(g){
+ const q=g.questionSet[g.qIndex%g.questionSet.length];
+ say("playQuestion",q.q);
+ q.a.forEach((a,i)=>addControl(a,()=>quizAnswer(i),g.turn!==playerIndex()||!!g.doneCurrent));
+}
+function renderReaction(g){
+ say("playQuestion",g.startedReaction?"TAP NOW!":"Wait for the signal, then tap Start.");
+ addControl(g.startedReaction?"TAP NOW!":"Start",()=>reactionTap(),g.turn!==playerIndex()||!!g.reactionResult);
+}
+function renderSimpleGame(g){
+ const descriptions={
+ ludo:"Roll the dice. Highest roll wins the turn.",
+ snakes:"Roll to climb the board. First to the end wins.",
+ cards:"Draw a card and follow its challenge.",
+ snakearena:"Choose a direction to survive the round."
+ };
+ say("playQuestion",descriptions[g.mode]||"Complete the challenge.");
+ if(g.mode==="ludo"||g.mode==="snakes")addControl("🎲 Roll Dice",()=>submitMove(String(1+Math.floor(Math.random()*6))),g.turn!==playerIndex());
+ else if(g.mode==="cards")addControl("Draw Card",()=>submitMove(String(1+Math.floor(Math.random()*13))),g.turn!==playerIndex());
+ else ["⬆️","⬅️","➡️","⬇️"].forEach(x=>addControl(x,()=>submitMove(x),g.turn!==playerIndex()));
+}
+async function submitMove(move){
+ const g=state.currentGame,idx=playerIndex();if(g.turn!==idx)return;
+ let moves={...(g.moves||{})};moves[idx]=move;
+ let scores=[...g.scores],turn=1-idx;
+ if(Object.keys(moves).length>=2){
+  if(g.mode==="rps"){
+   const a=moves[0].split(" ").at(-1),b=moves[1].split(" ").at(-1);
+   const win=(a==="Rock"&&b==="Scissors")||(a==="Paper"&&b==="Rock")||(a==="Scissors"&&b==="Paper");
+   if(a!==b)scores[win?0:1]++;
+  }else{
+   const a=Number(moves[0]),b=Number(moves[1]);
+   if(a!==b)scores[a>b?0:1]++;
   }
-  if (!already()) {
-    alert("Answer or skip first.");
-    return;
-  }
-
-  stopTimer();
-
-  const idx = game.roundIndex;
-  const r = round();
-  const scores = [...game.scores];
-  const roundPoints = (game.roundPoints || []).map(x => [...x]);
-
-  while (roundPoints.length < 10) roundPoints.push([0, 0]);
-
-  const rounds = game.rounds.map((x, i) => ({ ...x }));
-  const currentRound = rounds[idx];
-
-  // Award +10 once to the player with more points in this round.
-  if (!currentRound.bonusAwarded) {
-    const p0 = roundPoints[idx][0];
-    const p1 = roundPoints[idx][1];
-
-    if (p0 > p1) {
-      scores[0] += 10;
-      currentRound.winner = 0;
-      currentRound.bonusAwarded = true;
-    } else if (p1 > p0) {
-      scores[1] += 10;
-      currentRound.winner = 1;
-      currentRound.bonusAwarded = true;
-    } else {
-      // A tied round gives no bonus.
-      currentRound.winner = -1;
-      currentRound.bonusAwarded = true;
-    }
-  }
-
-  const nextIndex = r.index + 1;
-
-  if (nextIndex >= 10) {
-    if (idx === 9) {
-      await patch({
-        scores,
-        roundPoints,
-        rounds,
-        finished: true
-      });
-      return;
-    }
-
-    await patch({
-      scores,
-      roundPoints,
-      rounds,
-      roundIndex: idx + 1,
-      activePlayer: 0,
-      revealed: false
-    });
-  } else {
-    rounds[idx] = { ...currentRound, index: nextIndex };
-
-    await patch({
-      scores,
-      roundPoints,
-      rounds,
-      activePlayer: 1 - me(),
-      revealed: false
-    });
-  }
+  moves={};
+ }
+ await patch({currentGame:{...g,moves,scores,turn}});
+}
+async function submitBoardMove(pos){
+ const g=state.currentGame,i=playerIndex();if(g.turn!==i||g.winner)return;
+ let board=[...(g.board||Array(g.mode==="ttt"?9:42).fill(""))];
+ if(g.mode==="ttt"){
+  if(board[pos])return;board[pos]=i===0?"X":"O";
+  const winLines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  const won=winLines.some(l=>l.every(n=>board[n]===board[l[0]]));
+  const winner=won?i:board.every(Boolean)?-1:null;
+  let scores=[...g.scores];if(won)scores[i]+=3;
+  await patch({currentGame:{...g,board,winner,scores,turn:1-i}});
+ }else{
+  let row=-1;for(let r=5;r>=0;r--)if(!board[r*7+pos]){row=r;break}
+  if(row<0)return;board[row*7+pos]=i===0?"R":"Y";
+  const won=connectWin(board,row,pos);
+  let scores=[...g.scores];if(won)scores[i]+=3;
+  await patch({currentGame:{...g,board,winner:won?i:null,scores,turn:1-i}});
+ }
+}
+function connectWin(b,r,c){
+ const p=b[r*7+c],dirs=[[1,0],[0,1],[1,1],[1,-1]];
+ return dirs.some(([dr,dc])=>{let n=1;for(let sign of [-1,1]){let y=r+dr*sign,x=c+dc*sign;while(y>=0&&y<6&&x>=0&&x<7&&b[y*7+x]===p){n++;y+=dr*sign;x+=dc*sign}}return n>=4});
+}
+async function memoryPick(i){
+ const g=state.currentGame;if(g.turn!==playerIndex())return;
+ let revealed=[...(g.revealed||[]),i],matched=[...(g.matched||[])],scores=[...g.scores];
+ if(revealed.length===2){
+  if(g.deck[revealed[0]]===g.deck[revealed[1]]){matched.push(...revealed);scores[playerIndex()]++}
+  else{await patch({currentGame:{...g,revealed,matched,scores,turn:1-playerIndex()}});setTimeout(()=>{},700);return}
+  revealed=[];
+ }
+ await patch({currentGame:{...g,revealed,matched,scores,turn:1-playerIndex()}});
+}
+async function quizAnswer(i){
+ const g=state.currentGame;if(g.turn!==playerIndex()||g.doneCurrent)return;
+ let scores=[...g.scores];if(i===g.questionSet[g.qIndex%g.questionSet.length].correct)scores[playerIndex()]++;
+ const next=g.qIndex+1;
+ await patch({currentGame:{...g,scores,qIndex:next,doneCurrent:false,turn:1-playerIndex()}});
+}
+async function reactionTap(){
+ const g=state.currentGame;if(g.turn!==playerIndex())return;
+ if(!g.startedReaction){await patch({currentGame:{...g,startedReaction:true,reactionResult:false}});return}
+ const scores=[...g.scores];scores[playerIndex()]++;
+ await patch({currentGame:{...g,scores,reactionResult:true,turn:1-playerIndex()}});
+}
+async function startGame(mode,fromTournament){
+ if(!state||playerIndex()<0)return;
+ if(!isHost&&state.currentGame)return;
+ localMode=mode;stopClock();
+ let g={mode,scores:[0,0],turn:0,roundIndex:0,qIndex:0,doneCurrent:false};
+ if(mode==="afterhours"){
+  const names=shuffle(Object.keys(questions));
+  const rounds=Array.from({length:8},(_,i)=>({name:names[i%names.length],questions:shuffle(questions[names[i%names.length]]).slice(0,10),index:0,bonusAwarded:false}));
+  const custom1=(state.custom1||questions.Relationship).slice(0,10),custom2=(state.custom2||questions["Truth & Confessions"]).slice(0,10);
+  rounds.push({name:"Custom Round 1",questions:custom1,index:0,bonusAwarded:false},{name:"Custom Round 2",questions:custom2,index:0,bonusAwarded:false});
+  g.rounds=rounds;g.roundPoints=Array.from({length:10},()=>[0,0]);g.skipDares=state.skipDares||dareDefaults;g.finalDares=state.finalDares||dareDefaults;
+ }else if(mode==="ttt")g.board=Array(9).fill("");
+ else if(mode==="connect4")g.board=Array(42).fill("");
+ else if(mode==="memory"){const deck=shuffle(["🍎","🍎","🍋","🍋","🍇","🍇","⭐","⭐","❤️","❤️","🌙","🌙"]);g.deck=deck;g.revealed=[];g.matched=[]}
+ else if(mode==="quiz")g.questionSet=[{q:"What is 7 + 8?",a:["14","15","16"],correct:1},{q:"Which planet is known as the Red Planet?",a:["Mars","Venus","Jupiter"],correct:0},{q:"How many sides does a hexagon have?",a:["5","6","8"],correct:1}];
+ else if(mode==="reaction"){g.startedReaction=false;g.reactionResult=false}
+ await patch({phase:"play",currentGame:g});
+}
+async function endGame(g){
+ const winner=g.scores[0]===g.scores[1]?-1:g.scores[0]>g.scores[1]?0:1;
+ const cards=state.players.map((p,i)=>({uid:p.uid,name:p.name,gameScore:g.scores[i],title:titleFor(g,i,winner)}));
+ const t=state.tournament||null;
+ let next={...state,phase:"awards",currentGame:{...g,completed:true},lastCards:cards};
+ if(t){
+  const tp={...(t.points||{})};
+  state.players.forEach((p,i)=>{tp[p.uid]=(tp[p.uid]||0)+(g.scores[i]||0)});
+  if(winner>=0)tp[state.players[winner].uid]=(tp[state.players[winner].uid]||0)+10;
+  next.tournament={...t,points:tp,completed:(t.completed||0)+1,lastWinner:winner>=0?state.players[winner].uid:null};
+ }
+ await patch(next);
+}
+function titleFor(g,i,winner){
+ const names=["Master of the Game","Highest Scorer","Smart Strategist","Lucky Player","Consistent Player","Comeback Player","Quick Thinker","Game Explorer","Monkey Player","Tournament Champion"];
+ if(winner===i)return names[0];
+ if(g.scores[i]===Math.max(...g.scores))return names[1];
+ return names[(i+g.scores[i])%9];
+}
+function renderAwards(){
+ const cards=state.lastCards||[];
+ say("awardSummary","Every player receives a title card. Tournament bonus points are separate from After Hours scores.");
+ $("awardCards").innerHTML=cards.map(c=>`<div class="titlecard"><h3>🎖️ ${escapeHTML(c.title)}</h3><strong>${escapeHTML(c.name)}</strong><p>Game score: ${c.gameScore}</p><p class="small">Tournament points: ${(state.tournament?.points?.[c.uid]||0)}</p></div>`).join("");
+}
+async function continueTournament(){
+ if(!isHost)return alert("Only the room creator can advance the tournament.");
+ const t=state.tournament;
+ if(t&&t.completed<t.order.length){
+  await startGame(t.order[t.completed],true);
+ }else if(t){
+  await patch({phase:"final"}); 
+ }else{
+  await patch({phase:"hub",currentGame:null});
+ }
+}
+function renderFinal(){
+ const t=state.tournament;if(!t){say("finalResults","No tournament results yet.");return}
+ const sorted=state.players.map(p=>({p,points:t.points?.[p.uid]||0})).sort((a,b)=>b.points-a.points);
+ say("finalResults","");
+ $("finalResults").innerHTML=sorted.map((x,i)=>`<div class="titlecard"><h3>${i===0?"🏆 Tournament Champion":"🎖️ Player Results"}</h3><strong>${escapeHTML(x.p.name)}</strong><p>${x.points} tournament points</p></div>`).join("");
+ $("finalCards").innerHTML=sorted.map((x,i)=>`<div class="titlecard"><h3>${i===0?"🏆 Tournament Legend":"🎖️ Tournament Player"}</h3><strong>${escapeHTML(x.p.name)}</strong><p>Final points: ${x.points}</p></div>`).join("");
+ if(isHost&&sorted.length){
+  const champ=sorted[0];
+  runTransaction(ref(db,"champion/latest"),old=>{
+   if(old&&old.room===roomId&&old.points>champ.points)return old;
+   return {name:champ.p.name,points:champ.points,room:roomId,updatedAt:Date.now()};
+  });
+ }
+}
+onValue(ref(db,"champion/latest"),s=>{
+ const c=s.val();
+ say("championText",c?`${c.name} — ${c.points} tournament points`:"No champion yet. Play the first tournament!");
+});
+$("startTournament").onclick=async()=>{
+ if(!isHost)return alert("Only the room creator can start the tournament.");
+ if(state.players.some(p=>!p))return alert("Two players must join first.");
+ if($("format").value==="teams")return alert("Team mode requires at least four players: two players per team. This room currently supports two players.");
+ const count=Number($("gameCount").value);
+ const order=shuffle(modes.map(x=>x[0])).slice(0,count);
+ const points={};state.players.forEach(p=>points[p.uid]=0);
+ await patch({phase:"tournament",tournament:{format:$("format").value,order,points,completed:0,startedAt:Date.now()}});
+ await startGame(order[0],true);
 };
-$("roundWinBtn").onclick=async()=>{
- if(!active())return;
- let r=round();if(r.bonusAwarded)return alert("Bonus already awarded.");
- let n=Number(prompt("Enter 1 for "+game.players[0].name+" or 2 for "+game.players[1].name));
- if(n!==1&&n!==2)return;
- let scores=[...game.scores];scores[n-1]+=10;
- await patch({scores,rounds:game.rounds.map((x,i)=>i===game.roundIndex?{...x,winner:n-1,bonusAwarded:true}:x)});
+$("finishGameBtn").onclick=async()=>{
+ if(!isHost)return alert("Only the room creator can finish the game.");
+ if(!state.currentGame)return;
+ await endGame(state.currentGame);
 };
-$("newGameBtn").onclick=async()=>{
- if(!isHost)return alert("Only the room creator can restart.");
- await save({room:roomId,hostUid:uid,players:game.players,scores:[0,0],started:false,ready:[false,false]});
+$("continueBtn").onclick=continueTournament;
+$("backHubBtn").onclick=async()=>{if(!isHost)return alert("Only the host can return to the hub.");stopClock();await patch({phase:"hub",currentGame:null})};
+$("homeBtn").onclick=async()=>{if(!isHost)return alert("Only the host can reset the room.");await patch({phase:"hub",currentGame:null,tournament:null})};
+$("leaveBtn").onclick=()=>{stopClock();if(unsub)unsub();state=null;roomId="";hide("hub");show("lobby")};
+$("createBtn").onclick=async()=>{
+ try{
+  await login();const name=$("name").value.trim();if(!name)return say("lobbyStatus","Enter your name first.");
+  roomId=Math.random().toString(36).slice(2,8).toUpperCase();isHost=true;
+  state={room:roomId,hostUid:uid,players:[{uid,name},null],phase:"hub"};
+  await set($room(),state);listen();say("lobbyStatus","Created room "+roomId);
+ }catch(e){say("lobbyStatus","Create failed: "+e.message)}
 };
-$("leaveBtn").onclick=()=>{
- stopTimer();if(unsubscribe)unsubscribe();game=null;roomId="";hide("setup");hide("game");hide("finish");show("lobby");
+$("joinBtn").onclick=async()=>{
+ try{
+  await login();const name=$("name").value.trim();roomId=$("roomInput").value.trim().toUpperCase();
+  if(!name||!roomId)return say("lobbyStatus","Enter your name and room code.");
+  state=await readRoom();if(!state)return say("lobbyStatus","Room not found.");
+  if(!state.players.some(p=>p?.uid===uid)){
+   const slot=state.players.findIndex(p=>!p);if(slot<0)return say("lobbyStatus","Room is full.");
+   const players=[...state.players];players[slot]={uid,name};await patch({players});
+  }
+  isHost=state.hostUid===uid;listen();
+ }catch(e){say("lobbyStatus","Join failed: "+e.message)}
 };
 </script>
 </body>
