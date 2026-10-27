@@ -446,10 +446,22 @@ showPage("register");
   }
   
 function showPage(pageId) {
-  document.querySelectorAll(".page, .panel.auth").forEach(function (page) {
+  document.querySelectorAll(".page, .panel.auth").forEach(page => {
     page.classList.add("hidden");
     page.style.display = "none";
   });
+
+  const target = document.getElementById(pageId);
+
+  if (target) {
+    target.classList.remove("hidden");
+    target.style.display = "block";
+  } else {
+    console.error("Page not found:", pageId);
+  }
+}
+
+window.showPage = showPage;
 
   const page = document.getElementById(pageId);
   if (page) {
