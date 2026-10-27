@@ -421,6 +421,16 @@ showPage("register");
     }
   };
   }
+  function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(function (page) {
+    page.style.display = "none";
+  });
+
+  const page = document.getElementById(pageId);
+  if (page) page.style.display = "block";
+}
+
+window.showPage = showPage;
 </script>
 </body>
 </html>
