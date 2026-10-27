@@ -308,7 +308,14 @@ $("readyBtn").onclick=async()=>{
  let rounds=chosen.map(n=>({name:n,type:"category",questions:shuffle(categories[n]).slice(0,10),index:0,bonusAwarded:false}));
  rounds.push({name:"Custom Round 1",type:"custom",questions:shuffle(c[0]).slice(0,10),index:0,bonusAwarded:false});
  rounds.push({name:"Custom Round 2",type:"custom",questions:shuffle(c[1]).slice(0,10),index:0,bonusAwarded:false});
- await save({...game,started:true,rounds:shuffle(rounds),roundIndex:0,activePlayer:0,revealed:false,challenge:null,answered:[],history:[],skipDares:d,finalDares:f,scores:[0,0],finished:false});
+ await save({...game,started:true,rounds:shuffle(rounds),roundIndex:0,activePlayer:0,revealed:false,challenge:null,
+answered:[],
+history:[],
+roundPoints:Array.from({length:10},()=>[0,0]),
+skipDares:d,
+finalDares:f,
+scores:[0,0],
+finished:false;
  }
 };
 
