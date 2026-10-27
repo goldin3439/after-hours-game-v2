@@ -421,11 +421,21 @@ showPage("register");
     }
   };
   }
-  function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(function (page) {
+  
+function showPage(pageId) {
+  document.querySelectorAll(".page, .panel.auth").forEach(function (page) {
+    page.classList.add("hidden");
     page.style.display = "none";
   });
 
+  const page = document.getElementById(pageId);
+  if (page) {
+    page.classList.remove("hidden");
+    page.style.display = "block";
+  }
+}
+
+window.showPage = showPage;
   const page = document.getElementById(pageId);
   if (page) page.style.display = "block";
 }
