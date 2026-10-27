@@ -148,7 +148,27 @@ nav button.active{color:var(--pink)}
   <button data-page="settings" onclick="showPage('settings')"><span>⚙️</span>Settings</button>
 </nav>
 
-<script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDi_bJDs2Kw3Kqilf0TwKSe0PRvs_MsJ34",
+  authDomain: "after-hours-game-bee3.firebaseapp.com",
+  databaseURL: "https://after-hours-game-bee3-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "after-hours-game-bee3",
+  storageBucket: "after-hours-game-bee3.firebasestorage.app",
+  messagingSenderId: "84144412869",
+  appId: "1:84144412869:web:4a65b973503ae65b95b8ac",
+  measurementId: "G-74JE4PS8BM"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const database = getDatabase(firebaseApp);
+
 const games=[
 ["🎲","Ludo"],["🪜","Snake & Ladder"],["🃏","Card Challenge"],
 ["❤️‍🔥","After Hours"],["✊","Rock Paper Scissors"],
