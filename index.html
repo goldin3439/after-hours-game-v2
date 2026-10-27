@@ -1,166 +1,249 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game of Understanding ❤️</title>
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-      color: #fff;
-      background: radial-gradient(circle at top, #482044, #100d1c 65%);
-    }
-
-    .card {
-      width: 100%;
-      max-width: 410px;
-      padding: 28px 22px;
-      border: 1px solid #74446e;
-      border-radius: 22px;
-      background: rgba(25, 19, 38, 0.96);
-      box-shadow: 0 15px 45px #0008;
-    }
-
-    .logo {
-      text-align: center;
-      font-size: 45px;
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      margin: 0;
-      text-align: center;
-      font-size: 25px;
-      color: #ffb4d8;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #c7b7cc;
-      font-size: 14px;
-      line-height: 1.5;
-      margin: 10px 0 25px;
-    }
-
-    label {
-      display: block;
-      margin: 14px 0 7px;
-      font-size: 13px;
-      color: #f4d9ed;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #59405f;
-      border-radius: 10px;
-      background: #211a2d;
-      color: white;
-      font-size: 15px;
-      outline: none;
-    }
-
-    input:focus, select:focus {
-      border-color: #ff80bd;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 20px;
-      border: none;
-      border-radius: 11px;
-      background: linear-gradient(90deg, #ff6eaa, #bd70ff);
-      color: #211027;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .note {
-      margin-top: 18px;
-      color: #bbaac2;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-
-    #message {
-      margin-top: 14px;
-      text-align: center;
-      font-size: 13px;
-      color: #ffb4d8;
-      line-height: 1.5;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game of Understanding ❤️</title>
+<style>
+:root{--bg:#100c1b;--card:#20182f;--line:#493653;--pink:#ff83bd;--gold:#ffd36b;--muted:#c1b3cf}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:white;font-family:Arial,sans-serif}
+header{position:sticky;top:0;z-index:2;background:#181225;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+.brand{color:var(--pink);font-weight:bold}
+.coins{color:var(--gold);font-weight:bold}
+main{max-width:900px;margin:auto;padding:16px 12px 90px}
+.panel,.tile{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px;margin-bottom:14px}
+.auth{max-width:430px;margin:35px auto}
+h1{font-size:24px;color:var(--pink)}
+h2{font-size:19px}
+p{line-height:1.5}
+.muted{color:var(--muted);font-size:13px}
+label{display:block;margin:13px 0 6px;font-size:13px}
+input,select{width:100%;padding:12px;background:#130f20;color:white;border:1px solid var(--line);border-radius:9px}
+button{cursor:pointer}
+.btn{border:0;border-radius:10px;padding:12px;background:linear-gradient(90deg,#ff83bd,#c28aff);color:#24132c;font-weight:bold}
+.full{width:100%;margin-top:17px}
+.secondary{background:#332741;color:white;border:1px solid var(--line)}
+.link{display:block;margin:12px auto;background:none;border:0;color:var(--pink);padding:8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile{margin:0;padding:13px}
+.tile h3{font-size:15px;margin:8px 0}
+.tile p{font-size:12px;color:var(--muted);margin:5px 0}
+.emoji{font-size:28px}
+.hero{background:linear-gradient(130deg,#512344,#292044);border:1px solid #75466d;border-radius:16px;padding:20px;margin-bottom:14px}
+.avatar{font-size:38px;width:65px;height:65px;border-radius:50%;display:grid;place-items:center;background:#382640;border:2px solid var(--pink)}
+.row{display:flex;align-items:center;gap:12px}
+.stat{font-size:25px;color:var(--gold);font-weight:bold;margin:8px 0}
+.badge{display:inline-block;border:1px solid #76547b;background:#372843;padding:8px 11px;border-radius:20px;margin:4px;font-size:12px}
+.notice{background:#30243d;padding:12px;border-radius:10px;font-size:13px;line-height:1.5;margin-top:12px}
+.hidden{display:none!important}
+nav{position:fixed;bottom:0;left:0;right:0;background:#191326;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 2px calc(8px + env(safe-area-inset-bottom));z-index:3}
+nav button{flex:1;background:none;color:#d6c4e2;border:0;font-size:10px;padding:6px 1px}
+nav button span{display:block;font-size:19px;margin-bottom:4px}
+nav button.active{color:var(--pink)}
+@media(min-width:600px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>
 </head>
 <body>
-  <main class="card">
-    <div class="logo">🎮❤️</div>
-    <h1>Game of Understanding</h1>
-    <p class="subtitle">
-      Create your player identity and enter your gaming world.
-    </p>
+<header>
+  <div class="brand">🎮 Game of Understanding ❤️</div>
+  <div id="coinHeader" class="coins hidden">🪙 <span id="topCoins">1,000</span></div>
+</header>
+<main>
+<section id="register" class="panel auth">
+  <div style="text-align:center;font-size:45px">🎮❤️</div>
+  <h1 style="text-align:center">Create your player</h1>
+  <p class="muted" style="text-align:center">Start your gaming journey.</p>
+  <form id="registerForm">
+    <label>Gamer name</label><input id="regName" maxlength="24" required>
+    <label>Permanent Game ID</label>
+    <input id="regId" minlength="3" maxlength="8" pattern="(?=.*[A-Z])[A-Za-z0-9]{3,8}" title="3–8 letters/numbers and at least one uppercase letter" required placeholder="Example: Goldin7">
+    <p class="muted">Your Game ID cannot be changed.</p>
+    <label>Password</label><input id="regPass" type="password" minlength="8" required autocomplete="new-password">
+    <label>Choose your avatar</label>
+    <select id="regAvatar">
+      <option value="👩🏻‍🎤">👩🏻‍🎤 Gaming Girl</option>
+      <option value="👸🏽">👸🏽 Purple Queen</option>
+      <option value="👩🏽‍🎨">👩🏽‍🎨 Creator</option>
+      <option value="👩🏽">👩🏽 Desi Star</option>
+      <option value="👩🏼‍🌾">🌸 Flower Girl</option>
+      <option value="👨🏻‍💻">👨🏻‍💻 Pro Gamer</option>
+      <option value="🧑🏽‍🎤">🧑🏽‍🎤 Neon Hero</option>
+      <option value="👨🏽">👨🏽 Desi Champion</option>
+      <option value="🐱">🐱 Cute Cat</option>
+      <option value="🐼">🐼 Panda Love</option>
+      <option value="🐶">🐶 Loyal Buddy</option>
+      <option value="🦋">🦋 Butterfly Charm</option>
+      <option value="🦄">🦄 Magic Unicorn</option>
+      <option value="🌺">🌺 Flower Sticker</option>
+    </select>
+    <button class="btn full">Create demo profile</button>
+  </form>
+  <p class="muted" style="text-align:center">Already registered?</p>
+  <button class="link" onclick="showPage('login')">Go to login</button>
+  <div id="regMsg" class="notice hidden"></div>
+</section>
 
-    <form id="registerForm">
-      <label for="playerName">Player name</label>
-      <input id="playerName" type="text"
-        placeholder="Enter your player name"
-        maxlength="24" required>
+<section id="login" class="panel auth hidden">
+  <h1 style="text-align:center">Welcome back 👋</h1>
+  <p class="muted" style="text-align:center">Log in to your player profile.</p>
+  <form id="loginForm">
+    <label>Game ID</label><input id="loginId" required>
+    <label>Password</label><input id="loginPass" type="password" required>
+    <button class="btn full">Log in</button>
+  </form>
+  <div id="loginMsg" class="notice hidden"></div>
+  <button class="link" onclick="showPage('register')">Create a new profile</button>
+</section>
 
-      <label for="gameId">Choose your Game ID</label>
-      <input id="gameId" type="text"
-        placeholder="Example: Goldin7"
-        maxlength="8" minlength="3"
-        pattern="(?=.*[A-Z])[A-Za-z0-9]{3,8}"
-        title="Use 3–8 letters or numbers and at least one uppercase letter."
-        required>
+<section id="home" class="hidden">
+  <div class="hero">
+    <div class="row"><div id="homeAvatar" class="avatar">🎮</div>
+    <div><p class="muted">WELCOME BACK</p><h1 id="welcome" style="margin:4px 0">Player</h1>
+    <p class="muted">Game ID: <strong id="homeId"></strong></p></div></div>
+    <hr style="border-color:#76516f">
+    <p>Your virtual coin balance</p><div class="stat">🪙 <span id="homeCoins">1,000</span></div>
+    <p class="muted">Virtual coins have no cash value.</p>
+  </div>
+  <div class="grid">
+    <div class="tile"><div class="emoji">🏆</div><h3>Trophies</h3><div id="trophyCount" class="stat">0</div><p>One per verified tournament win.</p></div>
+    <div class="tile"><div class="emoji">🎖️</div><h3>Achievements</h3><div id="achievementCount" class="stat">0</div><p>Your earned achievements.</p></div>
+    <div class="tile"><div class="emoji">👑</div><h3>Title cards</h3><div id="titleCount" class="stat">0</div><p>Your earned titles.</p></div>
+  </div>
+  <div class="panel" style="margin-top:14px"><h2>🏅 Leaderboard</h2><p class="muted">Live rankings will appear after database integration.</p></div>
+  <div class="panel"><h2>🏆 Tournament arena</h2><p>Planned entry fee: <b>500 virtual coins</b>.</p><p class="muted">Tournament scheduling and prize distribution are not active yet.</p><button class="btn secondary" onclick="showPage('tournament')">Tournament details</button></div>
+  <h2>🎮 Game Hub</h2><div id="gameGrid" class="grid"></div>
+  <div class="panel" style="margin-top:14px"><h2>📜 Platform rules</h2><p class="muted">Starting balance: 1,000 virtual coins. Planned normal-game entry: 100 coins. Tournament entry: 500 coins. No cash purchase, withdrawal or redemption. Server verification will be required for all rewards.</p></div>
+</section>
 
-      <label for="password">Create password</label>
-      <input id="password" type="password"
-        placeholder="At least 8 characters"
-        minlength="8" required>
-
-      <label for="avatar">Choose your avatar</label>
-      <select id="avatar" required>
-        <option value="🎮">🎮 Gamer</option>
-        <option value="🦊">🦊 Fox</option>
-        <option value="🐼">🐼 Panda</option>
-        <option value="🐯">🐯 Tiger</option>
-        <option value="🐸">🐸 Frog</option>
-        <option value="🐱">🐱 Cat</option>
-        <option value="🐺">🐺 Wolf</option>
-        <option value="🐻">🐻 Bear</option>
-      </select>
-
-      <button type="submit">Create Player Account →</button>
-      <div id="message" role="status"></div>
+<section id="profile" class="hidden">
+  <div class="panel"><h1>👤 Player profile</h1>
+    <div class="row"><div id="profileAvatar" class="avatar">🎮</div><div><h2 id="profileName">Player</h2><p class="muted">Permanent Game ID: <b id="profileId"></b></p></div></div>
+    <div class="notice">Your Game ID cannot be changed. You can change your gamer name and avatar.</div>
+    <form id="profileForm">
+      <label>Change gamer name</label><input id="editName" maxlength="24" required>
+      <label>Change avatar</label><select id="editAvatar"></select>
+      <button class="btn full">Save profile changes</button>
     </form>
+    <div id="profileMsg" class="notice hidden"></div>
+  </div>
+  <div class="grid">
+    <div class="tile"><div class="emoji">🏆</div><h3>Tournament trophies</h3><div id="profileTrophies" class="stat">0</div></div>
+    <div class="tile"><div class="emoji">🪙</div><h3>Virtual coins</h3><div id="profileCoins" class="stat">1,000</div></div>
+  </div>
+  <div class="panel" style="margin-top:14px"><h2>🎖️ Achievements</h2><div id="achievementList" class="muted">No achievements earned yet.</div></div>
+  <div class="panel"><h2>👑 Title cards</h2><div id="titleList" class="muted">No title cards earned yet.</div></div>
+</section>
 
-    <p class="note">
-      Your Game ID must be 3–8 characters and contain at least
-      one uppercase letter. Accounts will be connected to secure
-      Firebase authentication in the next implementation step.
-    </p>
-  </main>
+<section id="tournament" class="hidden"><div class="panel"><h1>🏆 Tournament arena</h1><p>Planned entry: 500 virtual coins. Planned schedule: every two hours.</p><p class="muted">Actual tournaments, matchmaking, prizes and trophies require secure backend implementation.</p></div></section>
+<section id="history" class="hidden"><div class="panel"><h1>📚 Champion history</h1><p class="muted">Verified champions and previous leaderboard results will appear here once connected to the database.</p><div id="historyList">No history loaded yet.</div></div></section>
+<section id="settings" class="hidden"><div class="panel"><h1>⚙️ Settings</h1><p>Signed in as <b id="settingsId"></b></p><p class="muted">Cloud sync and account security are not connected yet.</p><button class="btn" onclick="logout()">Log out</button></div></section>
+</main>
+<nav id="nav" class="hidden">
+  <button data-page="home" onclick="showPage('home')"><span>🏠</span>Home</button>
+  <button data-page="profile" onclick="showPage('profile')"><span>👤</span>Profile</button>
+  <button data-page="tournament" onclick="showPage('tournament')"><span>🏆</span>Tournament</button>
+  <button data-page="history" onclick="showPage('history')"><span>📚</span>History</button>
+  <button data-page="settings" onclick="showPage('settings')"><span>⚙️</span>Settings</button>
+</nav>
 
-  <script>
-    document.getElementById("registerForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+<script>
+const games=[
+["🎲","Ludo"],["🪜","Snake & Ladder"],["🃏","Card Challenge"],
+["❤️‍🔥","After Hours"],["✊","Rock Paper Scissors"],
+["⭕","Tic-Tac-Toe Tournament"],["🔴","Connect Four"],
+["🐍","Snake Arena"],["🧠","Memory Match"],["❓","Quick Quiz"],
+["⚡","Reaction Challenge"]
+];
+const avatarOptions=[
+["👩🏻‍🎤","Gaming Girl"],["👸🏽","Purple Queen"],["👩🏽‍🎨","Creator"],
+["👩🏽","Desi Star"],["👩🏼‍🌾","Flower Girl"],["👨🏻‍💻","Pro Gamer"],
+["🧑🏽‍🎤","Neon Hero"],["👨🏽","Desi Champion"],["👨🏻","Cool Dude"],
+["👩🏻","Fashionista"],["👓","Smart Player"],["👩🏾‍🎓","Book Lover"],
+["🐱","Cute Cat"],["🐼","Panda Love"],["🐶","Loyal Buddy"],
+["🦋","Butterfly Charm"],["🦄","Magic Unicorn"],["🌺","Flower Sticker"],
+["🌸","Cherry Blossom"],["🐰","Sweet Bunny"]
+];
+let player=null;
+let demoAccount=null;
+const $=id=>document.getElementById(id);
 
-      document.getElementById("message").textContent =
-        "Registration screen ready! Account creation is not connected yet.";
-    });
-  </script>
+function showPage(id){
+ document.querySelectorAll("main>section").forEach(s=>s.classList.add("hidden"));
+ $(id).classList.remove("hidden");
+ $("nav").classList.toggle("hidden",!player);
+ $("coinHeader").classList.toggle("hidden",!player);
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ if(player)refresh();
+ window.scrollTo(0,0);
+}
+function addBadges(id,items){
+ const el=$(id);el.innerHTML="";
+ if(!items.length){el.textContent="No rewards earned yet.";el.className="muted";return;}
+ el.className="";
+ items.forEach(t=>{const b=document.createElement("span");b.className="badge";b.textContent=t;el.appendChild(b);});
+}
+function refresh(){
+ if(!player)return;
+ $("topCoins").textContent=player.coins.toLocaleString();
+ $("homeCoins").textContent=player.coins.toLocaleString();
+ $("profileCoins").textContent=player.coins.toLocaleString();
+ $("homeAvatar").textContent=player.avatar;$("profileAvatar").textContent=player.avatar;
+ $("welcome").textContent=player.name;$("profileName").textContent=player.name;
+ $("homeId").textContent=player.id;$("profileId").textContent=player.id;
+ $("settingsId").textContent=player.id;
+ $("editName").value=player.name;$("editAvatar").value=player.avatar;
+ $("trophyCount").textContent=player.trophies;
+ $("profileTrophies").textContent=player.trophies;
+ $("achievementCount").textContent=player.achievements.length;
+ $("titleCount").textContent=player.titles.length;
+ addBadges("achievementList",player.achievements);
+ addBadges("titleList",player.titles);
+}
+avatarOptions.forEach(a=>{
+ const option=document.createElement("option");
+ option.value=a[0];option.textContent=a[0]+" "+a[1];
+ $("editAvatar").appendChild(option);
+});
+$("gameGrid").innerHTML=games.map(g=>
+ '<div class="tile"><div class="emoji">'+g[0]+'</div><h3>'+g[1]+'</h3><p>Gameplay integration pending</p></div>'
+).join("");
+
+$("registerForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const id=$("regId").value.trim();
+ if(!/^(?=.*[A-Z])[A-Za-z0-9]{3,8}$/.test(id)){
+  $("regMsg").textContent="Use 3–8 letters/numbers and at least one uppercase letter.";
+  $("regMsg").classList.remove("hidden");return;
+ }
+ // Temporary demo only. Do not store or verify passwords here.
+ demoAccount={id:id,name:$("regName").value.trim(),avatar:$("regAvatar").value};
+ player={...demoAccount,coins:1000,trophies:0,achievements:[],titles:[]};
+ $("loginId").value=id;$("loginPass").value="";
+ $("loginMsg").textContent="Demo profile created. Secure Firebase login is not connected.";
+ $("loginMsg").classList.remove("hidden");
+ showPage("login");
+});
+$("loginForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ if(!demoAccount||$("loginId").value.trim().toLowerCase()!==demoAccount.id.toLowerCase()){
+  $("loginMsg").textContent="No matching demo account in this page session. Firebase login is not connected.";
+  $("loginMsg").classList.remove("hidden");return;
+ }
+ // Demo-only login; password verification is not implemented.
+ showPage("home");
+});
+$("profileForm").addEventListener("submit",e=>{
+ e.preventDefault();if(!player)return;
+ const name=$("editName").value.trim();
+ if(!name){$("profileMsg").textContent="Please enter a gamer name.";return;}
+ player.name=name;player.avatar=$("editAvatar").value;
+ refresh();$("profileMsg").textContent="Profile updated for this demo session only; cloud saving is not connected.";
+ $("profileMsg").classList.remove("hidden");
+});
+function logout(){player=null;showPage("login");}
+showPage("register");
+</script>
 </body>
 </html>
-```
