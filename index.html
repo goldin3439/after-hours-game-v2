@@ -266,6 +266,9 @@ $("loginForm").addEventListener("submit", async e => {
       achievements: [],
       titles: []
     };
+    if (!result || !result.player) {
+  throw new Error("Login API response is missing player details.");
+    }
 
     refresh();
     showPage("home");
