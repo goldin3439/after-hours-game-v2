@@ -279,16 +279,64 @@ $("createBtn").onclick=async()=>{
  await save(game);listen();hide("lobby");show("setup");
  }catch(e){msg("lobbyStatus",e.message)}
 };
-$("joinBtn").onclick=async()=>{
- try{
- await login();let name=$("name").value.trim(),code=$("roomInput").value.trim().toUpperCase();
- if(!name||!code)return alert("Enter name and room code.");
- roomId=code;let s=await get(roomRef());if(!s.exists())return alert("Room not found.");
- game=s.val();
- if(!game.players[1]){game.players[1]={uid,name};game.ready=[false,false];await save(game)}
- else if(game.players.some(p=>p?.uid===uid)){}else return alert("Room is full.");
- listen();hide("lobby");render();
- }catch(e){msg("lobbyStatus",e.message)}
+
+$("joinBtn").onclick = async () => {
+  msg("lobbyStatus", "Connecting to room...");
+
+  try {
+    await login();
+
+    const name = $("name").value.trim();
+    const code = $("roomInput").value.trim().toUpperCase();
+
+    if (!name || !code) {
+      msg("lobbyStatus", "Please enter your name and room code.");
+      return;
+    }
+
+    roomId = code;
+
+    const snapshot = await get(roomRef());
+
+    if (!snapshot.exists()) {
+      msg("lobbyStatus", "Room not found. Check the room code.");
+      return;
+    }
+
+    game = snapshot.val();
+
+    if (!Array.isArray(game.players)) {
+      msg("lobbyStatus", "This room has invalid game data.");
+      return;
+    }
+
+    const existingIndex = game.players.findIndex(p => p?.uid === uid);
+
+    if (existingIndex === -1) {
+      const emptyIndex = game.players.findIndex(p => !p);
+
+      if (emptyIndex === -1) {
+        msg("lobbyStatus", "Room is full.");
+        return;
+      }
+
+      game.players[emptyIndex] = { uid, name };
+
+      if (!Array.isArray(game.ready)) game.ready = [false, false];
+      game.ready[emptyIndex] = false;
+
+      await save(game);
+    }
+
+    listen();
+    hide("lobby");
+    render();
+
+    msg("setupStatus", "Joined successfully! ❤️");
+  } catch (error) {
+    console.error("Join room failed:", error);
+    msg("lobbyStatus", "Join failed: " + (error.message || error));
+  }
 };
 $("readyBtn").onclick=async()=>{
  if(!game||me()<0)return alert("Join a room first.");
