@@ -198,7 +198,7 @@ async function apiRequest(path, data) {
   });
 
   const result = await response.json();
-  if (!response.ok) throw new Error(result.error || "Request failed.");
+if (!response.ok) throw new Error(result.message || result.error || "Request failed.");
   return result;
 }
 
@@ -338,7 +338,7 @@ showPage("register");
     });
 
     const result = await response.json();
-    if (!response.ok) throw new Error(result.error || "Request failed.");
+    if (!response.ok) throw new Error(result.message || result.error || "Request failed.");
     return result;
   }
 
