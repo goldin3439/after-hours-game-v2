@@ -407,6 +407,20 @@ showPage("register");
       results.textContent = "";
     });
 })();
+  if (typeof window.showPage !== "function") {
+  window.showPage = function (pageId) {
+    document.querySelectorAll(".page").forEach(function (page) {
+      page.style.display = "none";
+    });
+
+    var target = document.getElementById(pageId);
+    if (target) {
+      target.style.display = "block";
+    } else {
+      console.error("Page not found:", pageId);
+    }
+  };
+  }
 </script>
 </body>
 </html>
