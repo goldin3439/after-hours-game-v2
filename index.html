@@ -303,5 +303,110 @@ showPage("register");
   <button id="ownerLogoutBtn">Logout</button>
   <pre id="ownerResults" style="white-space:pre-wrap;overflow-wrap:anywhere;"></pre>
 </section>
+  
+<script>
+(() => {
+  const API = "https://game-of-understanding-api.goldinkennetjoseph06.workers.dev";
+  let ownerToken = "";
+
+  // Add an Owner Login button to the website
+  const openBtn = document.createElement("button");
+  openBtn.textContent = "👑 Owner Login";
+  openBtn.style.cssText =
+    "position:fixed;bottom:15px;right:15px;z-index:9999;padding:12px;border-radius:12px;";
+  document.body.appendChild(openBtn);
+
+  const loginPage = document.getElementById("ownerLoginPage");
+  const dashboard = document.getElementById("ownerDashboard");
+  const message = document.getElementById("ownerLoginMsg");
+  const results = document.getElementById("ownerResults");
+
+  openBtn.addEventListener("click", () => {
+    loginPage.style.display = "block";
+    dashboard.style.display = "none";
+    loginPage.scrollIntoView({ behavior: "smooth" });
+  });
+
+  async function ownerRequest(path, data = {}) {
+    const response = await fetch(API + path, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + ownerToken
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Request failed.");
+    return result;
+  }
+
+  document.getElementById("ownerLoginForm")
+    .addEventListener("submit", async event => {
+      event.preventDefault();
+      message.textContent = "Logging in...";
+
+      try {
+        const response = await fetch(API + "/owner/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            password: document.getElementById("ownerPassword").value
+          })
+        });
+
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "Login failed.");
+
+        ownerToken = result.token;
+        document.getElementById("ownerPassword").value = "";
+        message.textContent = "";
+        loginPage.style.display = "none";
+        dashboard.style.display = "block";
+        results.textContent = "Owner login successful!";
+      } catch (error) {
+        message.textContent = error.message;
+      }
+    });
+
+  document.getElementById("loadPlayersBtn")
+    .addEventListener("click", async () => {
+      results.textContent = "Loading players...";
+      try {
+        const data = await ownerRequest("/owner/players");
+        results.textContent = JSON.stringify(data.players, null, 2);
+      } catch (error) {
+        results.textContent = error.message;
+      }
+    });
+
+  document.getElementById("loadHistoryBtn")
+    .addEventListener("click", async () => {
+      results.textContent = "Loading login history...";
+      try {
+        const data = await ownerRequest("/owner/login-history");
+        results.textContent = JSON.stringify(data.history, null, 2);
+      } catch (error) {
+        results.textContent = error.message;
+      }
+    });
+
+  document.getElementById("ownerLogoutBtn")
+    .addEventListener("click", async () => {
+      try {
+        await ownerRequest("/owner/logout");
+      } catch (error) {
+        results.textContent = "Logout request failed: " + error.message;
+        return;
+      }
+
+      ownerToken = "";
+      dashboard.style.display = "none";
+      loginPage.style.display = "none";
+      results.textContent = "";
+    });
+})();
+</script>
 </body>
 </html>
