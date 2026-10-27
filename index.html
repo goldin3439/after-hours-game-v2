@@ -311,10 +311,30 @@ $("readyBtn").onclick=async()=>{
  await save({...game,started:true,rounds:shuffle(rounds),roundIndex:0,activePlayer:0,revealed:false,challenge:null,answered:[],history:[],skipDares:d,finalDares:f,scores:[0,0],finished:false});
  }
 };
-$("answerBtn").onclick=async()=>{
- if(!active()||already()||game.challenge)return;
- stopTimer();let scores=[...game.scores];scores[me()]+=2;
- await patch({scores,answered:[...game.answered,key()],revealed:true,activePlayer:1-me(),history:[...game.history,game.players[me()].name+" answered +2"]});
+
+$("answerBtn").onclick = async () => {
+  if (!active() || already() || game.challenge) return;
+
+  stopTimer();
+
+  const player = me();
+  const scores = [...game.scores];
+  scores[player] += 2;
+
+  const roundPoints = (game.roundPoints || []).map(x => [...x]);
+  while (roundPoints.length < 10) roundPoints.push([0, 0]);
+
+  roundPoints[game.roundIndex][player] += 2;
+
+  await patch({
+    scores,
+    roundPoints,
+    answered: [...game.answered, key()],
+    revealed: true,
+    activePlayer: 1 - player,
+    history: [...(game.history || []),
+      game.players[player].name + " answered +2"]
+  });
 };
 $("skipBtn").onclick=async()=>{
  if(!active()||already()||game.challenge)return;
@@ -328,15 +348,82 @@ async function dare(done){
 }
 $("doneDareBtn").onclick=()=>dare(true);
 $("failedDareBtn").onclick=()=>dare(false);
-$("nextBtn").onclick=async()=>{
- if(!active())return;
- if(game.challenge)return alert("Complete the dare first.");
- if(!already())return alert("Answer or skip first.");
- stopTimer();let r=round(),idx=r.index+1;
- if(idx>=10){
- if(game.roundIndex===9){await patch({finished:true});return}
- await patch({rounds:game.rounds.map((x,i)=>i===game.roundIndex?{...x,completed:true}:x),roundIndex:game.roundIndex+1,activePlayer:0,revealed:false});
- }else await patch({rounds:game.rounds.map((x,i)=>i===game.roundIndex?{...x,index:idx}:x),activePlayer:1-me(),revealed:false});
+
+$("nextBtn").onclick = async () => {
+  if (!active()) return;
+  if (game.challenge) {
+    alert("Complete the dare first.");
+    return;
+  }
+  if (!already()) {
+    alert("Answer or skip first.");
+    return;
+  }
+
+  stopTimer();
+
+  const idx = game.roundIndex;
+  const r = round();
+  const scores = [...game.scores];
+  const roundPoints = (game.roundPoints || []).map(x => [...x]);
+
+  while (roundPoints.length < 10) roundPoints.push([0, 0]);
+
+  const rounds = game.rounds.map((x, i) => ({ ...x }));
+  const currentRound = rounds[idx];
+
+  // Award +10 once to the player with more points in this round.
+  if (!currentRound.bonusAwarded) {
+    const p0 = roundPoints[idx][0];
+    const p1 = roundPoints[idx][1];
+
+    if (p0 > p1) {
+      scores[0] += 10;
+      currentRound.winner = 0;
+      currentRound.bonusAwarded = true;
+    } else if (p1 > p0) {
+      scores[1] += 10;
+      currentRound.winner = 1;
+      currentRound.bonusAwarded = true;
+    } else {
+      // A tied round gives no bonus.
+      currentRound.winner = -1;
+      currentRound.bonusAwarded = true;
+    }
+  }
+
+  const nextIndex = r.index + 1;
+
+  if (nextIndex >= 10) {
+    if (idx === 9) {
+      await patch({
+        scores,
+        roundPoints,
+        rounds,
+        finished: true
+      });
+      return;
+    }
+
+    await patch({
+      scores,
+      roundPoints,
+      rounds,
+      roundIndex: idx + 1,
+      activePlayer: 0,
+      revealed: false
+    });
+  } else {
+    rounds[idx] = { ...currentRound, index: nextIndex };
+
+    await patch({
+      scores,
+      roundPoints,
+      rounds,
+      activePlayer: 1 - me(),
+      revealed: false
+    });
+  }
 };
 $("roundWinBtn").onclick=async()=>{
  if(!active())return;
