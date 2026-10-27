@@ -158,29 +158,108 @@ function startTimer(){
  stopTimer();seconds=10;msg("timer",seconds);
  timer=setInterval(()=>{seconds--;msg("timer",seconds);if(seconds<=0){stopTimer();if(active()&&!already()&&!game.challenge)msg("gameStatus","Time's up! Answer or skip to a dare.")}},1000);
 }
-function render(){
- if(!game)return;
- if(!game.started){show("setup");hide("game");hide("finish");msg("roomLabel","Room: "+roomId);msg("playersLabel",game.players.map(p=>p?.name||"Waiting for partner").join(" ❤️ "));return}
- if(game.finished){stopTimer();hide("game");show("finish");results();return}
- hide("setup");hide("finish");show("game");
- let r=round();
- msg("player0",game.players[0].name);msg("player1",game.players[1].name);
- msg("score0",game.scores[0]);msg("score1",game.scores[1]);
- msg("roundLabel","Round "+(game.roundIndex+1)+"/10");
- msg("categoryLabel",r.name);
- msg("turnLabel",game.players[game.activePlayer].name+"'s turn");
- msg("question",r.questions[r.index]);
- $("answer").classList.toggle("hidden",!game.revealed);
- $("challenge").classList.toggle("hidden",!game.challenge);
- if(game.challenge)msg("challenge","🎲 Dare: "+game.challenge.text);
- $("answerBtn").disabled=!active()||game.challenge||already();
- $("skipBtn").disabled=!active()||game.challenge||already();
- $("doneDareBtn").disabled=!active()||!game.challenge;
- $("failedDareBtn").disabled=!active()||!game.challenge;
- $("nextBtn").disabled=!active();
- $("roundWinBtn").disabled=!active()||r.bonusAwarded;
- if(!timer&&!game.challenge&&!already())startTimer();
+
+function startTimer() {
+  stopTimer();
+
+  if (!game || !game.started || game.finished || game.challenge || already()) {
+    return;
+  }
+
+  seconds = 10;
+  $("timer").textContent = seconds;
+  show("timer");
+  show("question");
+
+  timer = setInterval(() => {
+    seconds--;
+    $("timer").textContent = Math.max(0, seconds);
+
+    if (seconds <= 0) {
+      stopTimer();
+      msg("gameStatus", "⏰ Time's up! Answer or skip to a dare.");
+    }
+  }, 1000);
 }
+
+function render() {
+  if (!game) return;
+
+  if (!game.started) {
+    stopTimer();
+    show("setup");
+    hide("game");
+    hide("finish");
+    msg("roomLabel", "Room: " + roomId);
+    msg(
+      "playersLabel",
+      game.players.map(p => p?.name || "Waiting for partner").join(" ❤️ ")
+    );
+    return;
+  }
+
+  if (game.finished) {
+    stopTimer();
+    hide("game");
+    show("finish");
+    results();
+    return;
+  }
+
+  hide("setup");
+  hide("finish");
+  show("game");
+
+  const r = round();
+
+  if (!r || !Array.isArray(r.questions)) {
+    stopTimer();
+    msg("question", "Question unavailable. Please restart the game.");
+    return;
+  }
+
+  msg("player0", game.players[0]?.name || "Player 1");
+  msg("player1", game.players[1]?.name || "Player 2");
+  msg("score0", game.scores?.[0] ?? 0);
+  msg("score1", game.scores?.[1] ?? 0);
+
+  msg("roundLabel", "Round " + (game.roundIndex + 1) + "/10");
+  msg("categoryLabel", r.name || "Game Round");
+  msg(
+    "turnLabel",
+    (game.players[game.activePlayer]?.name || "Player") + "'s turn"
+  );
+
+  const question = r.questions[r.index];
+
+  msg(
+    "question",
+    question || "No question found. Please restart the game."
+  );
+
+  show("question");
+  show("timer");
+
+  $("answer").classList.toggle("hidden", !game.revealed);
+  $("challenge").classList.toggle("hidden", !game.challenge);
+
+  if (game.challenge) {
+    msg("challenge", "🎲 Dare: " + game.challenge.text);
+    stopTimer();
+  } else if (question && !already() && !timer) {
+    startTimer();
+  } else if (already()) {
+    stopTimer();
+    msg("timer", "Done");
+  }
+
+  $("answerBtn").disabled = !active() || !!game.challenge || already();
+  $("skipBtn").disabled = !active() || !!game.challenge || already();
+  $("doneDareBtn").disabled = !active() || !game.challenge;
+  $("failedDareBtn").disabled = !active() || !game.challenge;
+  $("nextBtn").disabled = !active();
+  $("roundWinBtn").disabled = !active() || !!r.bonusAwarded;
+ }
 function results(){
  let w=game.scores[0]===game.scores[1]?-1:game.scores[0]>game.scores[1]?0:1;
  $("results").innerHTML=game.players.map((p,i)=>"<div class='panel'><h3>"+p.name+"</h3>Score: "+game.scores[i]+"<p>"+(w===-1?"Tie Game":random(i===w?winnerTitles:loserTitles))+"</p></div>").join("");
