@@ -154,30 +154,32 @@ async function login(){if(!auth.currentUser)await signInAnonymously(auth);uid=au
 async function save(data){await set(roomRef(),data)}
 async function patch(data){await update(roomRef(),{...data,updatedAt:Date.now()})}
 function stopTimer(){if(timer)clearInterval(timer);timer=null}
-function startTimer(){
- stopTimer();seconds=10;msg("timer",seconds);
- timer=setInterval(()=>{seconds--;msg("timer",seconds);if(seconds<=0){stopTimer();if(active()&&!already()&&!game.challenge)msg("gameStatus","Time's up! Answer or skip to a dare.")}},1000);
-}
 
 function startTimer() {
   stopTimer();
 
-  if (!game || !game.started || game.finished || game.challenge || already()) {
+  if (!game || !game.started || game.finished ||
+      game.challenge || already()) {
     return;
   }
 
   seconds = 10;
-  $("timer").textContent = seconds;
+  $("timer").textContent = "10";
+  msg("gameStatus", "⏳ Time is running!");
   show("timer");
-  show("question");
 
   timer = setInterval(() => {
-    seconds--;
-    $("timer").textContent = Math.max(0, seconds);
+    seconds = Math.max(0, seconds - 1);
+    $("timer").textContent = seconds;
 
-    if (seconds <= 0) {
+    if (seconds === 0) {
       stopTimer();
-      msg("gameStatus", "⏰ Time's up! Answer or skip to a dare.");
+
+      if (game && active() && !already() && !game.challenge) {
+        $("answerBtn").disabled = true;
+        $("skipBtn").disabled = true;
+        msg("gameStatus", "⏰ Time's up! Tap Next Question.");
+      }
     }
   }, 1000);
 }
