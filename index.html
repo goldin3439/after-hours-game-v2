@@ -185,84 +185,98 @@ const avatarOptions=[
 ["🦋","Butterfly Charm"],["🦄","Magic Unicorn"],["🌺","Flower Sticker"],
 ["🌸","Cherry Blossom"],["🐰","Sweet Bunny"]
 ];
-let player=null;
-let demoAccount=null;
-const $=id=>document.getElementById(id);
 
-function showPage(id){
- document.querySelectorAll("main>section").forEach(s=>s.classList.add("hidden"));
- $(id).classList.remove("hidden");
- $("nav").classList.toggle("hidden",!player);
- $("coinHeader").classList.toggle("hidden",!player);
- document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
- if(player)refresh();
- window.scrollTo(0,0);
-}
-function addBadges(id,items){
- const el=$(id);el.innerHTML="";
- if(!items.length){el.textContent="No rewards earned yet.";el.className="muted";return;}
- el.className="";
- items.forEach(t=>{const b=document.createElement("span");b.className="badge";b.textContent=t;el.appendChild(b);});
-}
-function refresh(){
- if(!player)return;
- $("topCoins").textContent=player.coins.toLocaleString();
- $("homeCoins").textContent=player.coins.toLocaleString();
- $("profileCoins").textContent=player.coins.toLocaleString();
- $("homeAvatar").textContent=player.avatar;$("profileAvatar").textContent=player.avatar;
- $("welcome").textContent=player.name;$("profileName").textContent=player.name;
- $("homeId").textContent=player.id;$("profileId").textContent=player.id;
- $("settingsId").textContent=player.id;
- $("editName").value=player.name;$("editAvatar").value=player.avatar;
- $("trophyCount").textContent=player.trophies;
- $("profileTrophies").textContent=player.trophies;
- $("achievementCount").textContent=player.achievements.length;
- $("titleCount").textContent=player.titles.length;
- addBadges("achievementList",player.achievements);
- addBadges("titleList",player.titles);
-}
-avatarOptions.forEach(a=>{
- const option=document.createElement("option");
- option.value=a[0];option.textContent=a[0]+" "+a[1];
- $("editAvatar").appendChild(option);
-});
-$("gameGrid").innerHTML=games.map(g=>
- '<div class="tile"><div class="emoji">'+g[0]+'</div><h3>'+g[1]+'</h3><p>Gameplay integration pending</p></div>'
-).join("");
+let player = null;
+const API = "https://game-of-understanding-api.goldinkennetjoseph06.workers.dev";
+const $ = id => document.getElementById(id);
 
-$("registerForm").addEventListener("submit",e=>{
- e.preventDefault();
- const id=$("regId").value.trim();
- if(!/^(?=.*[A-Z])[A-Za-z0-9]{3,8}$/.test(id)){
-  $("regMsg").textContent="Use 3–8 letters/numbers and at least one uppercase letter.";
-  $("regMsg").classList.remove("hidden");return;
- }
- // Temporary demo only. Do not store or verify passwords here.
- demoAccount={id:id,name:$("regName").value.trim(),avatar:$("regAvatar").value};
- player={...demoAccount,coins:1000,trophies:0,achievements:[],titles:[]};
- $("loginId").value=id;$("loginPass").value="";
- $("loginMsg").textContent="Demo profile created. Secure Firebase login is not connected.";
- $("loginMsg").classList.remove("hidden");
- showPage("login");
+async function apiRequest(path, data) {
+  const response = await fetch(API + path, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || "Request failed.");
+  return result;
+}
+
+$("registerForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("regMsg");
+  msg.textContent = "Creating your account...";
+  msg.classList.remove("hidden");
+
+  try {
+    await apiRequest("/register", {
+      gamerName: $("regName").value.trim(),
+      gameId: $("regId").value.trim(),
+      password: $("regPass").value,
+      avatar: $("regAvatar").value
+    });
+
+    $("loginId").value = $("regId").value.trim();
+    $("loginPass").value = "";
+    msg.textContent = "Account created! Please log in.";
+    showPage("login");
+  } catch (error) {
+    msg.textContent = error.message;
+  }
 });
-$("loginForm").addEventListener("submit",e=>{
- e.preventDefault();
- if(!demoAccount||$("loginId").value.trim().toLowerCase()!==demoAccount.id.toLowerCase()){
-  $("loginMsg").textContent="No matching demo account in this page session. Firebase login is not connected.";
-  $("loginMsg").classList.remove("hidden");return;
- }
- // Demo-only login; password verification is not implemented.
- showPage("home");
+
+$("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  const msg = $("loginMsg");
+  msg.textContent = "Logging in...";
+  msg.classList.remove("hidden");
+
+  try {
+    const result = await apiRequest("/login", {
+      gameId: $("loginId").value.trim(),
+      password: $("loginPass").value
+    });
+
+    player = {
+      id: result.player.gameId,
+      name: result.player.gamerName,
+      avatar: result.player.avatar,
+      coins: 1000,
+      trophies: 0,
+      achievements: [],
+      titles: []
+    };
+
+    refresh();
+    showPage("home");
+  } catch (error) {
+    msg.textContent = error.message;
+  }
 });
-$("profileForm").addEventListener("submit",e=>{
- e.preventDefault();if(!player)return;
- const name=$("editName").value.trim();
- if(!name){$("profileMsg").textContent="Please enter a gamer name.";return;}
- player.name=name;player.avatar=$("editAvatar").value;
- refresh();$("profileMsg").textContent="Profile updated for this demo session only; cloud saving is not connected.";
- $("profileMsg").classList.remove("hidden");
+
+$("profileForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!player) return;
+
+  const name = $("editName").value.trim();
+  if (!name) {
+    $("profileMsg").textContent = "Please enter a gamer name.";
+    $("profileMsg").classList.remove("hidden");
+    return;
+  }
+
+  player.name = name;
+  player.avatar = $("editAvatar").value;
+  refresh();
+  $("profileMsg").textContent = "Profile updated for this session.";
+  $("profileMsg").classList.remove("hidden");
 });
-function logout(){player=null;showPage("login");}
+
+function logout() {
+  player = null;
+  showPage("login");
+}
+
 showPage("register");
 </script>
 </body>
